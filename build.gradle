@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'org.shareMany'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    //aws
+    implementation 'com.amazonaws:aws-java-sdk:1.12.469'
+    //mysql
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
+    //smtp mail
+    implementation group: 'javax.mail', name: 'mail', version: '1.5.0-b01'
+    //log4j
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
+    //servlet jsp jstl
+    implementation 'javax.servlet:javax.servlet-api:3.1.0'
+    implementation 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.2-b02'
+    implementation 'javax.servlet:jstl:1.2'
+    //spring webmvc
+    implementation 'org.springframework:spring-webmvc:5.0.2.RELEASE'
+    //spring tomcat jdbc
+    implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.0.2.RELEASE'
+    implementation group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: '8.0.49'
+    //mysql
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.45'
+    //@valid 어노테이션 기능 지원
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    //bean validation 기능 지원
+    implementation 'org.hibernate:hibernate-validator:6.0.7.Final'
+    //jackson 자바 객체 json 변환 라이브러리
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.4'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.4'
+}
+
+test {
+    useJUnitPlatform()
+}

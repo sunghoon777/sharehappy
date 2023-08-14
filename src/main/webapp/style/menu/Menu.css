@@ -1,0 +1,17 @@
+*{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.navbar-brand{
+    color: #32926F;
+    cursor: pointer;
+}
+.navbar-brand:hover{
+    color: #32926F;
+}
+.nav-link{
+    color: black;
+    cursor: pointer;
+}
+.nav-link:hover{
+    color: #32926F;
+}
