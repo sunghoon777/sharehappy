@@ -14,7 +14,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 	<!-- custom -->
-	<link rel="stylesheet" href="/style/menu/Menu.css">
+	<link rel="stylesheet" href="/css/menu/Menu.css">
 </head>
 <body>
 <div class="container">

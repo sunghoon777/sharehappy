@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <!-- custom -->
-    <link rel="stylesheet" href="/style/main/Main.css">
+    <link rel="stylesheet" href="/css/main/Main.css">
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/menu/Menu.jsp"/>
