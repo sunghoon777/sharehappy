@@ -3,12 +3,11 @@ package weShare.sharehappy.dao;
 import weShare.sharehappy.entity.DonationPostCategory;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface DonationPostCategoryRepository {
 
-    public List<DonationPostCategory> selectAll();
+    DonationPostCategory findByCategoryName(String name);
+    List<DonationPostCategory> findAllSortByCategoryOrderAsc();
 
-    public  Optional<DonationPostCategory> selectCategory(String categoryName);
 
 }

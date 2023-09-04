@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -20,29 +21,34 @@
 <div class="container">
 	<nav class="navbar">
 		<div class="container-fluid" style="background-color: white;">
-			<a class="navbar-brand d-flex align-items-center justify-content-center" href="#">
+			<a class="navbar-brand d-flex align-items-center justify-content-center" href="/main">
 				<img src="https://img.icons8.com/ios-filled/50/12B886/charity-box.png" alt="ShareHappy홈" width="50" height="50" class="d-inline-block align-text-top">
-				ShareHappy
+				<spring:message code="home.menu"/>
 			</a>
 			<ul class="nav justify-content-end">
 				<div class="d-flex align-items-center justify-content-center">
 					<c:choose>
 						<c:when test="${empty authInfo}">
 							<li class="nav-item">
-								<a class="nav-link" href="#">
-									<span>로그인</span>
+								<a class="nav-link" href="/login">
+									<span><spring:message code="login.menu"/></span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/signup/form">
+									<span><spring:message code="signup.menu"/></span>
 								</a>
 							</li>
 						</c:when>
 						<c:otherwise>
 							<li class="nav-item">
 								<a class="nav-link active" aria-current="page" href="#">
-									<span>내정보</span>
+									<span><spring:message code="myInfo.menu"/></span>
 								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="#">
-									<span>로그아웃</span>
+									<span><spring:message code="logout.menu"/></span>
 								</a>
 							</li>
 						</c:otherwise>
