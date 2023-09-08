@@ -28,9 +28,9 @@
 			<ul class="nav justify-content-end">
 				<div class="d-flex align-items-center justify-content-center">
 					<c:choose>
-						<c:when test="${empty authInfo}">
+						<c:when test="${empty isLogin}">
 							<li class="nav-item">
-								<a class="nav-link" href="/login">
+								<a class="nav-link" href="/login/form">
 									<span><spring:message code="login.menu"/></span>
 								</a>
 							</li>

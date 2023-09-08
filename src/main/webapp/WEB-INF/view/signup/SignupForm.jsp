@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -18,7 +17,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <!-- custom -->
     <link rel="stylesheet" href="/css/common/Font.css">
-    <title>회원 가입</title>
+    <script src="/js/signup/Signup.js"></script>
+    <title><spring:message code="title.signup"/></title>
+    <style>
+        .error{
+            color: tomato;
+        }
+    </style>
 </head>
 <body>
 <section class="vh-100" style="background-color: #eee;">
@@ -30,39 +35,39 @@
                         <div class="row justify-content-center">
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"><spring:message code="signup"/></p>
-                                <form:form id="signupRequest" cssClass="mx-1 mx-md-4" method="post" action="/signup">
+                                <div class="mx-1 mx-md-4">
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="email" id="form3Example3c" class="form-control" placeholder="<spring:message code="email.signup"/>" name="email" value="${signupRequest.email}"/>
-                                            <form:errors path="email" cssClass="error" />
+                                            <input type="email" id="email" class="form-control" placeholder="<spring:message code="email.signup"/>" name="email" value=""/>
+                                            <p id="error-email" class="error"></p>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="password" id="form3Example4c" class="form-control" placeholder="<spring:message code="password.signup"/>" name="password" value="${signupRequest.password}"/>
-                                            <form:errors path="password" cssClass="error" />
+                                            <input type="password" id="password" class="form-control" placeholder="<spring:message code="password.signup"/>" name="password" value=""/>
+                                            <p id="error-password" class="error"></p>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="password" id="form3Example4cd" class="form-control" placeholder="<spring:message code="passwordConfirm.signup"/>" name="passwordConfirm" value="${signupRequest.passwordConfirm}"/>
-                                            <form:errors path="passwordConfirm" cssClass="error" />
+                                            <input type="password" id="passwordConfirm" class="form-control" placeholder="<spring:message code="passwordConfirm.signup"/>" name="passwordConfirm" value=""/>
+                                            <p id="error-passwordConfirm"  class="error"></p>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="text" id="form3Example1c" class="form-control" placeholder="<spring:message code="nickname.signup"/>" name="nickname" value="${signupRequest.nickname}"/>
-                                            <form:errors path="nickname" cssClass="error" />
+                                            <input type="text" id="nickname" class="form-control" placeholder="<spring:message code="nickname.signup"/>" name="nickname" value=""/>
+                                            <p id="login-error"  class="error"></p>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                        <input type="submit" class="btn btn-outline-success" value="<spring:message code="signupButton.signup"/>" />
+                                        <input id="submit-btn" type="submit" class="btn btn-outline-success" value="<spring:message code="signupButton.signup"/>" />
                                     </div>
-                                </form:form>
+                                </div>
                             </div>
                             <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"

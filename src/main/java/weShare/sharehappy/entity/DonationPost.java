@@ -23,6 +23,7 @@ public class DonationPost {
     private String content;
     private Long targetAmount;
     private Long currentAmount;
+    @Column(updatable = false)
     private LocalDateTime regdate;
     private LocalDateTime enddate;
     private String categoryName;

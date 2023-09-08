@@ -29,13 +29,12 @@ public class DonationPostController {
 
     //기부 게시판 간단 정보 리스트 API
     @RequestMapping(value = "/donationPosts")
-    ResponseEntity<Object> getDonationPosts(@Validated @ModelAttribute DonationPostSummaryRequest request, BindingResult bindingResult){
+    public ResponseEntity<Object> getDonationPosts(@Validated @ModelAttribute DonationPostSummaryRequest request, BindingResult bindingResult){
         //검증 오류 있으면
         if(bindingResult.hasErrors()){
             ApiValidationErrorResponse response = new ApiValidationErrorResponse();
             for(FieldError fieldError : bindingResult.getFieldErrors()){
                 String fieldName = fieldError.getField();
-                System.out.println(fieldError.getObjectName());
                 String message = messageInfoProvider.getMessage(fieldError.getCodes(),fieldError.getArguments(),"");
                 Object rejectValue = fieldError.getRejectedValue();
                 response.addFieldErrorInfo(new FieldErrorInfo(fieldName,message));

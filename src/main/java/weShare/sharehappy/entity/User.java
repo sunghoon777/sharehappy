@@ -1,0 +1,39 @@
+package weShare.sharehappy.entity;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import weShare.sharehappy.dto.user.UserSummary;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Getter
+@NoArgsConstructor
+public class User {
+    @Id
+    @Column(name = "user_id", insertable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(updatable = false)
+    private String email; //이메일 변경은 불가임
+    private String password;
+    private String nickname;
+    @Column(updatable = false)
+    private LocalDateTime regdate; // 등록일은 변경될일은 없다
+
+    public User(String email, String password, String nickname, LocalDateTime regdate) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.regdate = regdate;
+    }
+
+    public void changePassword(String newPassword){
+        this.password = newPassword;
+    }
+
+    public UserSummary changeToUserSummary(){
+        return new UserSummary(email,nickname,regdate);
+    }
+}

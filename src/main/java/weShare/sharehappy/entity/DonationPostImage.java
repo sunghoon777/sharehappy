@@ -16,6 +16,7 @@ public class DonationPostImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String imageUrl;
+    @Column(updatable = false)
     private LocalDateTime regdate;
     private Boolean isThumbnail;
     @ManyToOne(fetch = FetchType.LAZY)

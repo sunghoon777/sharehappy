@@ -1,0 +1,24 @@
+body {
+    background: #32926F;
+    background: linear-gradient(to right, #32926F, #7CD2B3);
+}
+.btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+}
+.find_password{
+    text-decoration: none;
+    color: #7CD2B3;
+    line-height: 100%;
+}
+.find_password:hover{
+    color: #32926F;
+}
+.form-check{
+    display: flex;
+    justify-content: space-between;
+}
+.error{
+    color: tomato;
+}

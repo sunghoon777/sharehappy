@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="/css/main/Main.css">
     <link rel="stylesheet" href="/css/common/Font.css">
     <script src="/js/main/Main.js"/>
-    <title>ShareHappy</title>
+    <title><spring:message code="title.main"/></title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/menu/Menu.jsp"/>
