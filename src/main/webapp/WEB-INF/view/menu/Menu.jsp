@@ -35,7 +35,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="/signup/form">
+								<a class="nav-link" href="/signup/donor/form">
 									<span><spring:message code="signup.menu"/></span>
 								</a>
 							</li>
@@ -47,7 +47,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">
+								<a class="nav-link" href="/logout">
 									<span><spring:message code="logout.menu"/></span>
 								</a>
 							</li>

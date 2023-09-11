@@ -1,16 +1,18 @@
-let loginButton;
+let submitButton;
 let email;
 let password;
-let emailRemember;
-let organizationLogin;
+let passwordConfirm;
+let nickname;
+
+
 
 window.onload = function (){
-    //초기 설정
-    loginButton = document.getElementById('login-button');
+    //초기화
+    submitButton = document.getElementById('submit-btn');
     email = document.getElementById('email');
     password = document.getElementById('password');
-    emailRemember = document.getElementById('remember_email');
-    organizationLogin = document.getElementById('organization_login');
+    passwordConfirm = document.getElementById('passwordConfirm');
+    nickname = document.getElementById('nickname');
 
     //400 status 에러 처리
     let handle400Error = function (data){
@@ -26,19 +28,27 @@ window.onload = function (){
                 case 'password' :
                     document.getElementById('error-password').innerText = fieldError.message;
                     break;
+                case 'nickname' :
+                    document.getElementById('error-nickname').innerText = fieldError.message;
+                    break;
             }
         });
+
+        if(data.globalErrorInfos.length != 0){
+            document.getElementById('error-passwordConfirm').innerText = data.globalErrorInfos[0];
+        }
     }
 
-
-    //로그인 이벤트 설정
-    loginButton.addEventListener('click',()=>{
+    
+    //가입 버튼 이벤트 설정
+    submitButton.addEventListener('click',()=>{
         let requestDate = {
             "email" : email.value,
             "password" : password.value,
-            "rememberEmail" : emailRemember.checked
+            "passwordConfirm" : passwordConfirm.value,
+            "nickname" : nickname.value
         }
-        let url = '/login';
+        let url = '/signup';
         let option = {
             method: 'POST',
             headers: {
@@ -51,15 +61,22 @@ window.onload = function (){
         fetch(url,option)
             .then(response => {
                 if(response.ok){
-                    let url = document.getElementById('redirectUrl').value;
-                    if(url != ''){
-                        window.location = url;
-                    }
-                    else{
-                        window.location = '/main';
-                    }
+                    response.json().then(jsonData=>{
+                        let data = JSON.parse(JSON.stringify(jsonData,null,null));
+                        Swal.fire(
+                            {
+                                title: '회원 가입 완료',
+                                text: data.nickname+'님 반가워요',
+                                icon: 'success',
+                                confirmButtonColor: '#3399ff',
+                                confirmButtonText: '로그인 하기'
+                            }
+                        ).then(()=>{
+                            window.location = "/login/form";
+                        });
+                    });
                 }
-                if(response.status == 400){
+                else if(response.status == 400){
                     response.json().then(jsonData=>{
                         let data = JSON.parse(JSON.stringify(jsonData,null,null));
                         handle400Error(data);
@@ -72,7 +89,11 @@ window.onload = function (){
                         if(message == null){
                             message = '알 수없는 오류로 처리 할 수 없습니다';
                         }
-                        document.getElementById('error').innerText = message;
+                        Swal.fire({
+                            icon: 'error',
+                            title: message,
+                            confirmButtonText: '확인'
+                        })
                     });
                 }
             })
@@ -83,5 +104,7 @@ window.onload = function (){
                     confirmButtonText: '확인'
                 })
             });
+
+
     });
 }

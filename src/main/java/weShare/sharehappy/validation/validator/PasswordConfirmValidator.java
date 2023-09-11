@@ -1,6 +1,7 @@
 package weShare.sharehappy.validation.validator;
 
-import weShare.sharehappy.dto.signup.SignupRequest;
+
+import weShare.sharehappy.dto.signup.DonorSignupRequest;
 import weShare.sharehappy.validation.annotation.PasswordConfirm;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,7 +14,7 @@ public class PasswordConfirmValidator implements ConstraintValidator<PasswordCon
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        SignupRequest signupRequest = (SignupRequest)value;
+        DonorSignupRequest signupRequest = (DonorSignupRequest)value;
         Optional<String> password = Optional.ofNullable(signupRequest.getPassword());
         Optional<String> passwordConfirm = Optional.ofNullable(signupRequest.getPasswordConfirm());
         if(password.isPresent() && passwordConfirm.isPresent() && password.equals(passwordConfirm)){

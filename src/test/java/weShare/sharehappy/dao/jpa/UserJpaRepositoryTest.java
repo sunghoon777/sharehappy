@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
+import weShare.sharehappy.entity.Donor;
 import weShare.sharehappy.entity.User;
 
 import java.time.LocalDateTime;
@@ -18,14 +19,14 @@ class UserJpaRepositoryTest {
     private UserJpaRepository repository;
 
     @Test
-    void 새로저장성공() {
-        Assertions.assertThat(repository.save(new User("test100@test.com","fasafsq","test100", LocalDateTime.now())).getId()).isNotNull();
+    void 기부자계정새로저장성공() {
+        Assertions.assertThat(repository.save(new Donor("test100@test.com","fasafsq",LocalDateTime.now(),"tester100")).getId()).isNotNull();
     }
 
     @Test
-    void 새로저장실패() {
+    void 기부자계정새로저장실패() {
         Assertions.assertThatThrownBy(()->{
-            repository.save(new User("test100@test.com","fasafsq","test100", LocalDateTime.now()));
+            repository.save(new Donor("test100@test.com","fasafsq",LocalDateTime.now(),"tester100"));
         }).isInstanceOf(DataIntegrityViolationException.class);
     }
 

@@ -1,8 +1,6 @@
 package weShare.sharehappy.controller.user;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +10,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import weShare.sharehappy.Exception.ExistingUserException;
 import weShare.sharehappy.Exception.NoExistingUserException;
 import weShare.sharehappy.Exception.PasswordMismatchException;
 import weShare.sharehappy.constant.CookieKey;
@@ -23,9 +20,8 @@ import weShare.sharehappy.dto.error.RejectValueInfo;
 import weShare.sharehappy.dto.error.SimpleErrorResponse;
 import weShare.sharehappy.dto.login.LoginRequest;
 import weShare.sharehappy.dto.user.UserSummary;
-import weShare.sharehappy.entity.User;
 import weShare.sharehappy.service.MessageInfoProvider;
-import weShare.sharehappy.service.UserAuthProvider;
+import weShare.sharehappy.service.UserLoginService;
 
 import javax.servlet.http.*;
 
@@ -35,13 +31,7 @@ import javax.servlet.http.*;
 public class LoginController {
 
     private MessageInfoProvider messageInfoProvider;
-    private UserAuthProvider userAuthProvider;
-
-    @ExceptionHandler(NoExistingUserException.class)
-    public ResponseEntity<Object> noExistingUserExHandle(NoExistingUserException exception){
-        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
-        return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.CONFLICT);
-    }
+    private UserLoginService userLoginService;
 
     @ExceptionHandler(PasswordMismatchException.class)
     public ResponseEntity<Object> passwordMismatchExHandle(PasswordMismatchException exception){
@@ -78,17 +68,14 @@ public class LoginController {
             }
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        UserSummary userSummary = userAuthProvider.login(loginRequest);
+        UserSummary userSummary = userLoginService.login(loginRequest);
         HttpSession session = httpServletRequest.getSession();
         session.setAttribute(SessionKey.USER_AUTH.name(),userSummary);
         session.setMaxInactiveInterval(60*30);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/findPassword1/form")
-    public String findPassword1(){
-        return "/login/FindPassword1Form";
-    }
+
 
 
 }

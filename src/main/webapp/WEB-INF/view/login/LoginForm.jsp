@@ -28,7 +28,7 @@
                         <a href="/main"><img src="https://img.icons8.com/ios-filled/50/12B886/charity-box.png"/></a>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" value="${cookie.EMAIL_REMEMBER.value}">
+                        <input type="email" class="form-control" id="email" name="email" value="${cookie.EMAIL_REMEMBER.value}">
                         <label for="email"><spring:message code="email.login"/></label>
                         <p id="error-email" class="error"></p>
                     </div>
@@ -42,11 +42,7 @@
                                 <input class="form-check-input" type="checkbox" value="true" id="remember_email" name="remember" checked>
                                 <label class="form-check-label" for="remember_email"><spring:message code="rememberIdCheck.login"/></label>
                             </span>
-                            <span>
-                                <input class="form-check-input" type="checkbox" value="true" id="organization_login" name="remember">
-                                <label class="form-check-label" for="remember_email">기관 단체 로그인</label>
-                            </span>
-                        <a class="find_password" href="/login/findPassword1/form"><spring:message code="findPassword.login"/></a>
+                        <a class="find_password" href="/findPassword/process1/form"><spring:message code="findPassword.login"/></a>
                     </div>
                     <p id="error" class="error"></p>
                     <div class="d-grid">

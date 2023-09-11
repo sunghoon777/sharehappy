@@ -1,8 +1,9 @@
 package weShare.sharehappy.dao;
 
+import weShare.sharehappy.entity.Donor;
 import weShare.sharehappy.entity.User;
 
 public interface UserRepository {
-    User save(User user);
+    Donor save(Donor donor);
     User findByEmail(String email);
 }

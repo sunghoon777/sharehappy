@@ -7,9 +7,11 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
-@Getter
 @Setter
-public class UserSummary {
+@Getter
+public class DonorSummary {
     private String email;
-    private LocalDateTime regDate;
+    private String nickname;
+    private LocalDateTime regdate;
+
 }

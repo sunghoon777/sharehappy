@@ -3,19 +3,15 @@ package weShare.sharehappy.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Organization {
+@Table(name = "organization_user")
+public class Organization extends User{
 
-    @Id
-    @Column(name = "organization_id",insertable = false,updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String email;
-    private String password;
     private String name;
     private String representativeName;
     private String thumbnailUrl;
@@ -25,4 +21,15 @@ public class Organization {
     private String introduce;
     private String homepageUrl;
 
+    public Organization(String email, String password, LocalDateTime regdate, String name, String representativeName, String thumbnailUrl, String phonenumber, String address, String businessRegnumber, String introduce, String homepageUrl) {
+        super(email, password, regdate);
+        this.name = name;
+        this.representativeName = representativeName;
+        this.thumbnailUrl = thumbnailUrl;
+        this.phonenumber = phonenumber;
+        this.address = address;
+        this.businessRegnumber = businessRegnumber;
+        this.introduce = introduce;
+        this.homepageUrl = homepageUrl;
+    }
 }
