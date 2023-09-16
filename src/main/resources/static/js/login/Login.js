@@ -36,7 +36,8 @@ window.onload = function (){
         let requestDate = {
             "email" : email.value,
             "password" : password.value,
-            "rememberEmail" : emailRemember.checked
+            "rememberEmail" : emailRemember.checked,
+            "organizationLogin" : organizationLogin.checked
         }
         let url = '/login';
         let option = {

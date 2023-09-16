@@ -32,8 +32,4 @@ public class User {
         this.password = newPassword;
     }
 
-    public UserSummary changeToUserSummary(){
-        return new UserSummary(email,regdate);
-    }
-
 }

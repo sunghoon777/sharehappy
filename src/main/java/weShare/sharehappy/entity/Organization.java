@@ -2,6 +2,8 @@ package weShare.sharehappy.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import weShare.sharehappy.dto.user.UserSummary;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -31,5 +33,9 @@ public class Organization extends User{
         this.businessRegnumber = businessRegnumber;
         this.introduce = introduce;
         this.homepageUrl = homepageUrl;
+    }
+
+    public UserSummary changeToUserSummary(){
+        return new UserSummary(getEmail(),name,true,getRegdate());
     }
 }

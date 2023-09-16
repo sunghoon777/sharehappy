@@ -48,7 +48,7 @@ window.onload = function (){
             "passwordConfirm" : passwordConfirm.value,
             "nickname" : nickname.value
         }
-        let url = '/signup';
+        let url = '/signup/donor';
         let option = {
             method: 'POST',
             headers: {

@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weShare.sharehappy.Exception.ExistingUserException;
+import weShare.sharehappy.dao.DonorRepository;
 import weShare.sharehappy.dao.UserRepository;
 import weShare.sharehappy.dto.signup.DonorSignupRequest;
 import weShare.sharehappy.dto.user.DonorSummary;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserManager {
 
-    private final UserRepository repository;
+    private final DonorRepository repository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RandomStringService randomStringService;
 

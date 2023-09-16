@@ -19,4 +19,6 @@ public class LoginRequest {
     private String password;
     @NotNull
     private Boolean rememberEmail;
+    @NotNull
+    private Boolean organizationLogin;
 }

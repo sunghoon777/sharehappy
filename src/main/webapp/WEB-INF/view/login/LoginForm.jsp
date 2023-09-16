@@ -42,6 +42,10 @@
                                 <input class="form-check-input" type="checkbox" value="true" id="remember_email" name="remember" checked>
                                 <label class="form-check-label" for="remember_email"><spring:message code="rememberIdCheck.login"/></label>
                             </span>
+                            <span>
+                                <input class="form-check-input" type="checkbox" value="true" id="organization_login" name="remember">
+                                <label class="form-check-label" for="remember_email"><spring:message code="organizationLogin.login"/></label>
+                            </span>
                         <a class="find_password" href="/findPassword/process1/form"><spring:message code="findPassword.login"/></a>
                     </div>
                     <p id="error" class="error"></p>

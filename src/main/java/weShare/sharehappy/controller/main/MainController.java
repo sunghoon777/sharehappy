@@ -38,7 +38,7 @@ public class MainController {
         List<DonationPostSummary> postSummaryList = postInfoProvider.getDonationPosts(request);
         HttpSession httpSession = httpServletRequest.getSession(false);
         if(httpSession != null && httpSession.getAttribute(SessionKey.USER_AUTH.name()) != null){
-            model.addAttribute("isLogin",true);
+            model.addAttribute("userSummary",httpSession.getAttribute(SessionKey.USER_AUTH.name()));
         }
         model.addAttribute("postCount",postCount);
         model.addAttribute("categoryList",categoryInfoList);

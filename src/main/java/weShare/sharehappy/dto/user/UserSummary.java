@@ -11,5 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 public class UserSummary {
     private String email;
+    private String name;
+    private Boolean isOrganization;
     private LocalDateTime regDate;
 }

@@ -43,7 +43,7 @@ public class SignupController {
 
     @GetMapping("/organization/form")
     public String getOrganizationForm(){
-        return "";
+        return "signup/OrganizationSignupForm";
     }
 
 
@@ -69,5 +69,6 @@ public class SignupController {
         DonorSignupResponse response = new DonorSignupResponse(userSummary.getEmail(),userSummary.getNickname(),message);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
+
 
 }

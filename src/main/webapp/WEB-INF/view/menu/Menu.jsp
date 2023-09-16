@@ -28,7 +28,7 @@
 			<ul class="nav justify-content-end">
 				<div class="d-flex align-items-center justify-content-center">
 					<c:choose>
-						<c:when test="${empty isLogin}">
+						<c:when test="${empty userSummary}">
 							<li class="nav-item">
 								<a class="nav-link" href="/login/form">
 									<span><spring:message code="login.menu"/></span>
@@ -41,6 +41,13 @@
 							</li>
 						</c:when>
 						<c:otherwise>
+							<c:if test="${userSummary.isOrganization}">
+								<li class="nav-item">
+									<a class="nav-link active" aria-current="page" href="/donationPost/make/form">
+										<span><spring:message code="makePost.menu"/></span>
+									</a>
+								</li>
+							</c:if>
 							<li class="nav-item">
 								<a class="nav-link active" aria-current="page" href="#">
 									<span><spring:message code="myInfo.menu"/></span>

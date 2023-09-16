@@ -3,6 +3,7 @@ package weShare.sharehappy.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import weShare.sharehappy.dto.user.DonorSummary;
+import weShare.sharehappy.dto.user.UserSummary;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,6 +19,10 @@ public class Donor extends User{
     public Donor(String email, String password, LocalDateTime regdate, String nickname) {
         super(email, password, regdate);
         this.nickname = nickname;
+    }
+
+    public UserSummary changeToUserSummary(){
+        return new UserSummary(getEmail(),getNickname(),false,getRegdate());
     }
 
     public DonorSummary changeToDonorSummary(){

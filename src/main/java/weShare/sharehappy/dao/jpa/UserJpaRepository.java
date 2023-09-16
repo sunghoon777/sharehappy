@@ -13,12 +13,6 @@ import weShare.sharehappy.entity.User;
 public class UserJpaRepository implements UserRepository {
 
     private final SpringDataUserRepository userRepository;
-    private final SpringDataDonorRepsitory dataDonorRepsitory;
-
-    @Override
-    public Donor save(Donor donor) {
-        return dataDonorRepsitory.save(donor);
-    }
 
     @Override
     public User findByEmail(String email) {

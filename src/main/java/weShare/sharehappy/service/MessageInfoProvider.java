@@ -23,11 +23,6 @@ public class MessageInfoProvider {
         return messageSource.getMessage(resolvable, Locale.getDefault());
     }
 
-    public String getMessage(String[] codes){
-        DefaultMessageSourceResolvable resolvable = new DefaultMessageSourceResolvable(codes);
-        return messageSource.getMessage(resolvable, Locale.getDefault());
-    }
-
     public String getMessage(String code){
         DefaultMessageSourceResolvable resolvable = new DefaultMessageSourceResolvable(code);
         return messageSource.getMessage(resolvable,Locale.getDefault());

@@ -1,0 +1,7 @@
+{
+    "host":"smtp.naver.com",
+    "admin":"",
+    "password":"",
+    "subject":"내 ShareHappy 계정 바밀번호 찾기",
+    "format":"<p>%s 계정의 비밀번호를 찾으시려면 해당 입력란에 다음 코드를 입력해주세요</p><h2>%s</h2>"
+}
