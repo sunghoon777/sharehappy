@@ -2,12 +2,15 @@ package weShare.sharehappy.controller.errorhandler;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import weShare.sharehappy.Exception.ExceedImageCountException;
 import weShare.sharehappy.Exception.NoExistingDonationPostCategory;
 import weShare.sharehappy.Exception.NoExistingUserException;
 import weShare.sharehappy.Exception.NoMoreDonationPostException;
@@ -51,4 +54,11 @@ public class ErrorControllerAdvice {
         String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
         return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Object> maxUploadSizeExceededtExHandle(MaxUploadSizeExceededException exception){
+        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
+        return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.PAYLOAD_TOO_LARGE);
+    }
+
 }

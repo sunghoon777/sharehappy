@@ -1,38 +1,44 @@
 package weShare.sharehappy.controller.donationpost;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 import weShare.sharehappy.Exception.ExceedImageCountException;
 import weShare.sharehappy.Exception.FileStoreException;
+import weShare.sharehappy.constant.SessionKey;
 import weShare.sharehappy.dto.error.ApiValidationErrorResponse;
 import weShare.sharehappy.dto.error.FieldErrorInfo;
 import weShare.sharehappy.dto.error.RejectValueInfo;
 import weShare.sharehappy.dto.error.SimpleErrorResponse;
 import weShare.sharehappy.dto.post.DonationPostImageUploadRequest;
+import weShare.sharehappy.dto.post.DonationPostImageUploadResponse;
 import weShare.sharehappy.dto.post.DonationPostSummary;
 import weShare.sharehappy.dto.post.DonationPostSummaryRequest;
 import weShare.sharehappy.dto.user.UserSummary;
 import weShare.sharehappy.service.DonationPostInfoProvider;
 import weShare.sharehappy.service.LocalFileManagementService;
 import weShare.sharehappy.service.MessageInfoProvider;
-import weShare.sharehappy.validation.validator.PostImageUploadRequestValidator;
+import weShare.sharehappy.validation.validator.PostImageReqValidator;
+
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
-
 
 @Controller
 @RequestMapping("/donationPost")
@@ -41,23 +47,32 @@ public class DonationPostController {
 
     private final DonationPostInfoProvider postInfoProvider;
     private final MessageInfoProvider messageInfoProvider;
-    private final PostImageUploadRequestValidator validator;
     private final LocalFileManagementService localFileManagementService;
-    @Value("${post.image.store}")
-    private String postImageDirectory;
+    private final PostImageReqValidator postImageReqValidator;
+    @Value("${temp.post.image.store}")
+    private String imageStoreClassPath;
+    private String imageStoreRealPath;
+    private String userImageRequestPath;
 
-    @Autowired
-    public DonationPostController(DonationPostInfoProvider postInfoProvider, MessageInfoProvider messageInfoProvider, PostImageUploadRequestValidator validator, LocalFileManagementService localFileManagementService){
-        this.postInfoProvider = postInfoProvider;
-        this.messageInfoProvider = messageInfoProvider;
-        this.validator = validator;
-        this.localFileManagementService = localFileManagementService;
+    @PostConstruct
+    public void init() throws IOException {
+        Resource postImageClassPath = new ClassPathResource(imageStoreClassPath);
+        imageStoreRealPath = postImageClassPath.getFile().getAbsolutePath();
+        userImageRequestPath = imageStoreClassPath.substring(imageStoreClassPath.lastIndexOf("/temp"));
     }
 
+    @Autowired
+    public DonationPostController(DonationPostInfoProvider postInfoProvider, MessageInfoProvider messageInfoProvider,
+                                  LocalFileManagementService localFileManagementService,PostImageReqValidator postImageReqValidator){
+        this.postInfoProvider = postInfoProvider;
+        this.messageInfoProvider = messageInfoProvider;
+        this.localFileManagementService = localFileManagementService;
+        this.postImageReqValidator = postImageReqValidator;
+    }
 
     @InitBinder
-    public void init(WebDataBinder webDataBinder){
-        webDataBinder.addValidators(validator);
+    public void init(WebDataBinder binder){
+        binder.addValidators(postImageReqValidator);
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
@@ -67,7 +82,7 @@ public class DonationPostController {
     }
 
 
-    @ExceptionHandler({ExceedImageCountException.class, SizeLimitExceededException.class})
+    @ExceptionHandler(ExceedImageCountException.class)
     public ResponseEntity<Object> exceedImageCountExHandle(Exception exception){
         String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
         return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.BAD_REQUEST);
@@ -75,9 +90,7 @@ public class DonationPostController {
 
     @ExceptionHandler(FileStoreException.class)
     public ResponseEntity<Object> fileStoreExHandle(FileStoreException exception){
-        String code[] = new String[]{exception.getClass().getSimpleName()};
-        Object arguments[] = new Object[]{exception.getFileName()};
-        String message = messageInfoProvider.getMessage(code,arguments);
+        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
         return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.INTERNAL_SERVER_ERROR);
     }
     //기부 게시판 간단 정보 리스트 API
@@ -101,14 +114,30 @@ public class DonationPostController {
 
     @GetMapping("/make/form")
     public String getDonationPostMakeForm(HttpSession httpSession){
-        httpSession.setAttribute("currentImageCount",Integer.valueOf(0));
+
         return "donationPost/PostMakeForm";
     }
 
     @PostMapping("/image/upload")
-    public ResponseEntity<Object> uploadImage(@ModelAttribute DonationPostImageUploadRequest request,HttpSession httpSession) {
-
-        return new ResponseEntity<Object>("https://sharehappy.s3.ap-northeast-2.amazonaws.com/%EA%B8%B0%EB%B6%801.jpg",HttpStatus.OK);
+    public ResponseEntity<Object> uploadImage(@Validated @ModelAttribute DonationPostImageUploadRequest request, BindingResult bindingResult, HttpSession httpSession) throws IOException {
+        String email = ((UserSummary)httpSession.getAttribute(SessionKey.USER_AUTH.name())).getEmail();
+        String directory = localFileManagementService.mkdir(imageStoreRealPath,email);
+        int imageCount = localFileManagementService.countDirectoryFiles(directory);
+        if(imageCount+1 > 20){
+            throw new ExceedImageCountException();
+        }
+        if(bindingResult.hasErrors()){
+            ApiValidationErrorResponse response = new ApiValidationErrorResponse();
+            for(FieldError fieldError : bindingResult.getFieldErrors()){
+                String fieldName = fieldError.getField();
+                String message = messageInfoProvider.getMessage(fieldError.getCodes(),fieldError.getArguments(),"");
+                response.addFieldErrorInfo(new FieldErrorInfo(fieldName,message));
+            }
+            return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+        }
+        String fileName = localFileManagementService.storeRandomNameFile(request.getImageFile(),directory);
+        String imageUri = userImageRequestPath+"/"+email+"/"+fileName;
+        return new ResponseEntity<>(new DonationPostImageUploadResponse(imageUri),HttpStatus.OK);
     }
 
 }

@@ -1,11 +1,13 @@
 package weShare.sharehappy.validation.validator;
 
 
+import org.springframework.stereotype.Component;
 import weShare.sharehappy.dto.signup.DonorSignupRequest;
 import weShare.sharehappy.validation.annotation.PasswordConfirm;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Optional;
+
 
 public class PasswordConfirmValidator implements ConstraintValidator<PasswordConfirm,Object> {
     @Override

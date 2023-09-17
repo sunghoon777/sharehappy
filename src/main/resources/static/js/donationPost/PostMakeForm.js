@@ -16,32 +16,63 @@ $(document).ready(function () {
         ],
         callbacks : {
             onImageUpload : function (files){
-                uploadImage(files);
+                for(let i=0;i<files.length;i++){
+                    uploadImage(files[i]);
+                }
             }
         }
     });
 
-    function uploadImage(files){
+    function uploadImage(file){
         let formData = new FormData();
-        for(let i=0;i<files.length;i++){
-            formData.append('imageFiles',files[i]);
-        }
+        formData.append('imageFile',file);
         fetch('/donationPost/image/upload', {
             method: 'POST',
             body: formData
         })
             .then(response => {
                 if (response.ok) {
-                    response.text().then(textData=>{
-                        let data = JSON.parse(JSON.stringify(textData,null,null));
+                    response.json().then(jsonData=>{
+                        let data = JSON.parse(JSON.stringify(jsonData,null,null));
                         $('#summernote').summernote('insertImage',data, 'sss');
                     });
-                } else {
-                    console.error('파일 업로드 실패');
+                }
+                else if(response.status == 400){
+                    response.json().then(jsonData=>{
+                        let data = JSON.parse(JSON.stringify(jsonData,null,null));
+                        handle400Error(data);
+                    });
+                }
+                else {
+                    response.json().then(jsonData=>{
+                        let data = JSON.parse(JSON.stringify(jsonData,null,null));
+                        let message = data.message;
+                        if(message == null){
+                            message = '파일 업로드 실패';
+                        }
+                        Swal.fire({
+                            icon: 'error',
+                            title: message,
+                            confirmButtonText: '확인'
+                        })
+                    });
                 }
             })
             .catch(error => {
                 console.error('파일 업로드 오류:', error);
             });
+    }
+
+    //400 status 에러 처리
+    let handle400Error = function (data){
+        let errorMessage = '';
+        data.fieldErrorInfos.forEach((fieldError)=>{
+            errorMessage += fieldError.message;
+        });
+        Swal.fire({
+            icon: 'error',
+            title: errorMessage,
+            confirmButtonText: '확인'
+        })
     }
 });

@@ -2,13 +2,17 @@ package weShare.sharehappy.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.List;
 
-@AllArgsConstructor
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class DonationPostImageUploadRequest {
-    private List<MultipartFile> imageFiles;
+    @NotNull
+    MultipartFile imageFile;
 }
