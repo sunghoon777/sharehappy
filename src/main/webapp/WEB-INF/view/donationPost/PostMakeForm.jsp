@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>게시글 작성</title>
+    <title><spring:message code="title.postMake"/></title>
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
           integrity="sha256-7ZWbZUAi97rkirk4DcEp4GWDPkWpRMcNaEyXGsNXjLg=" crossorigin="anonymous">
@@ -18,37 +19,55 @@
     <!-- summer note language pack -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/lang/summernote-ko-KR.min.js"
             integrity="sha256-y2bkXLA0VKwUx5hwbBKnaboRThcu7YOFyuYarJbCnoQ=" crossorigin="anonymous"></script>
-    <script src="/js/donationPost/PostMakeForm.js"></script>
     <!--sweet alert-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        .container{
-            margin-top: 3rem;
-        }
-        .error{
-            color: red;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script  >
+    <!-- custom -->
+    <link rel="stylesheet" href="/css/common/Font.css">
+    <link rel="stylesheet" href="/css/donationPost/PostMakeFom.css">
+    <script src="/js/donationPost/PostMakeForm.js"></script>
 </head>
 <body>
 <div class="container" role="main">
-    <h2><spring:message code="subtitle.postMake"/></h2>
+    <h2 class="mb-3"><spring:message code="subtitle.postMake"/></h2>
     <div class="mb-3">
         <label for="title"><spring:message code="titleLabel.postMake"/></label>
-        <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요" required>
-        <p class="error"></p>
+        <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
+        <p id="title-error" class="error"></p>
     </div>
     <div class="mb-3">
         <label for="summernote"><spring:message code="contentLabel.postMake"/></label>
-        <textarea id="summernote" name="editordata" required></textarea>
+        <textarea id="summernote" name="editordata"></textarea>
+        <p id="content-error" class="error"></p>
+    </div>
+    <div class="mt-1 mb-3">
+        <label for="category " class="form-label"><spring:message code="categoryLabel.postMake"/></label>
+        <select id="category " class="form-select" name="category">
+            <c:forEach var="category" items="${categoryList}" varStatus="s">
+                <option value="${category.name}">${category.krName}</option>
+            </c:forEach>
+        </select>
+        <p id="category-error" class="error"></p>
+    </div>
+    <div class="mb-3">
+        <label for="targetAmount" class="form-label"><spring:message code="targetAmountLabel.postMake"/></label>
+        <input type="text" class="form-control" id="targetAmount">
+        <p id="targetAmount-error" class="error"></p>
+    </div>
+    <div class="mb-3">
+        <label for="endDate" class="form-label"><spring:message code="endDateLabel.postMake"/></label>
+        <br>
+        <input id="endDate" type="date" class="date-input">
+        <p id="endDate-error" class="error"></p>
     </div>
     <div class="mb-3">
         <label for="thumbnail" class="form-label"><spring:message code="thumbNailLabel.postMake"/></label>
-        <input class="form-control" type="file" name="image" id="thumbnail" required multiple>
-        <p class="error"></p>
+        <input class="form-control" type="file" name="image" id="thumbnail">
+        <p id="thumbnail-error" class="error"></p>
     </div>
-    <div class="mb-3">
-        <input class="btn btn-sm btn-primary" type="submit" value="<spring:message code="submitButton.postMake"/>"/>
+    <div class="mb-5">
+        <div class="d-grid gap-2">
+            <button id="submit-button" type="button" class="btn btn-outline-success"><spring:message code="submitButton.postMake"/></button>
+        </div>
     </div>
 </div>
 </body>

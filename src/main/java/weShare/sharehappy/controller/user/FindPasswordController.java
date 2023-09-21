@@ -11,14 +11,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import weShare.sharehappy.Exception.NoExistingUserException;
 import weShare.sharehappy.Exception.RandomCodeMismatchException;
-import weShare.sharehappy.constant.PageSize;
 import weShare.sharehappy.constant.SessionKey;
 import weShare.sharehappy.dto.error.SimpleErrorResponse;
 import weShare.sharehappy.dto.findpassword.FindPasswordRequest1;
 import weShare.sharehappy.dto.findpassword.FindPasswordRequest2;
-import weShare.sharehappy.service.RandomCodeSender;
-import weShare.sharehappy.service.MessageInfoProvider;
-import weShare.sharehappy.service.UserManager;
+import weShare.sharehappy.service.random.RandomCodeSender;
+import weShare.sharehappy.service.message.MessageInfoProvider;
+import weShare.sharehappy.service.user.UserManager;
 import weShare.sharehappy.vo.PasswordForgotUser;
 
 import javax.mail.MessagingException;

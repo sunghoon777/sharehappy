@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-class AwsSettingInfo {
+public class AwsSettingInfo {
     private String s3url;
     private String accessKey;
     private String secretKey;

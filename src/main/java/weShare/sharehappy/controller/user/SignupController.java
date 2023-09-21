@@ -17,8 +17,8 @@ import weShare.sharehappy.dto.error.SimpleErrorResponse;
 import weShare.sharehappy.dto.signup.DonorSignupRequest;
 import weShare.sharehappy.dto.signup.DonorSignupResponse;
 import weShare.sharehappy.dto.user.DonorSummary;
-import weShare.sharehappy.service.MessageInfoProvider;
-import weShare.sharehappy.service.UserManager;
+import weShare.sharehappy.service.message.MessageInfoProvider;
+import weShare.sharehappy.service.user.UserManager;
 
 
 @AllArgsConstructor

@@ -23,4 +23,10 @@ public class DonationPostImage {
     @JoinColumn(name = "donation_post_id")
     private DonationPost donationPost;
 
+    public DonationPostImage(String imageUrl, LocalDateTime regdate, Boolean isThumbnail, DonationPost donationPost) {
+        this.imageUrl = imageUrl;
+        this.regdate = regdate;
+        this.isThumbnail = isThumbnail;
+        this.donationPost = donationPost;
+    }
 }

@@ -9,21 +9,19 @@ import weShare.sharehappy.constant.SessionKey;
 import weShare.sharehappy.dto.post.DonationPostSummary;
 import weShare.sharehappy.dto.post.DonationPostSummaryRequest;
 import weShare.sharehappy.dto.postCategory.DonationPostCategoryInfo;
-import weShare.sharehappy.service.DonationPostCategoryInfoProvider;
-import weShare.sharehappy.service.DonationPostInfoProvider;
+import weShare.sharehappy.service.donationpostcategory.DonationPostCategoryInfoProvider;
+import weShare.sharehappy.service.donationpost.DonationPostManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
 public class MainController {
 
     private final DonationPostCategoryInfoProvider categoryInfoProvider;
-    private final DonationPostInfoProvider postInfoProvider;
+    private final DonationPostManager postInfoProvider;
 
     @GetMapping("/")
     public String welcome(){

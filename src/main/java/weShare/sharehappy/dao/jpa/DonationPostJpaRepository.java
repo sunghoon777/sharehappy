@@ -10,6 +10,7 @@ import weShare.sharehappy.dao.DonationPostRepository;
 import weShare.sharehappy.dao.jpa.springdata.SpringDataDonationPostRepository;
 import weShare.sharehappy.entity.DonationPost;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
@@ -19,12 +20,12 @@ public class DonationPostJpaRepository implements DonationPostRepository {
 
     @Override
     public DonationPost save(DonationPost donationPost) {
-        return null;
+        return repository.save(donationPost);
     }
 
     @Override
-    public DonationPost findById(Long id) {
-        return null;
+    public Optional<DonationPost> findById(Long id) {
+        return repository.findById(id);
     }
 
     @Override
@@ -62,7 +63,10 @@ public class DonationPostJpaRepository implements DonationPostRepository {
         else{
             slice = repository.findDonationPosts(pageRequest,categoryName);
         }
-        return slice.getContent();
+        List<DonationPost> donationPosts = slice.getContent();
+        //Fetch Type이 Lazy이므로 직접 로딩함
+        donationPosts.stream().forEach(post -> post.getImages());
+        return donationPosts;
     }
 
 }

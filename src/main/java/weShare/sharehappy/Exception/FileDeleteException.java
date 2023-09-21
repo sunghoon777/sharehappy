@@ -5,13 +5,11 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class FileStoreException extends RuntimeException{
+public class FileDeleteException extends RuntimeException{
 
     private List<String> fileNames;
-
-    public FileStoreException(List<String> fileNames) {
+    public FileDeleteException(List<String> fileNames){
         this.fileNames = fileNames;
     }
-
 
 }

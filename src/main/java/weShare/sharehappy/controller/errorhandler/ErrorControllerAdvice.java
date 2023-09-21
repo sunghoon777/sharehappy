@@ -2,7 +2,6 @@ package weShare.sharehappy.controller.errorhandler;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +9,9 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import weShare.sharehappy.Exception.ExceedImageCountException;
-import weShare.sharehappy.Exception.NoExistingDonationPostCategory;
-import weShare.sharehappy.Exception.NoExistingUserException;
-import weShare.sharehappy.Exception.NoMoreDonationPostException;
+import weShare.sharehappy.Exception.*;
 import weShare.sharehappy.dto.error.SimpleErrorResponse;
-import weShare.sharehappy.service.MessageInfoProvider;
+import weShare.sharehappy.service.message.MessageInfoProvider;
 
 
 @Slf4j
@@ -61,4 +57,21 @@ public class ErrorControllerAdvice {
         return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.PAYLOAD_TOO_LARGE);
     }
 
+    @ExceptionHandler(FileStoreException.class)
+    public ResponseEntity<Object> fileStoreExHandle(FileStoreException exception){
+        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
+        return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(FileDeleteException.class)
+    public ResponseEntity<Object> fileDeleteExHandle(FileDeleteException exception){
+        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
+        return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(AwsS3StoreFilesException.class)
+    public ResponseEntity<Object> awsS3StoreFilesExHandle(AwsS3StoreFilesException exception){
+        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
+        return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.PAYLOAD_TOO_LARGE);
+    }
 }
