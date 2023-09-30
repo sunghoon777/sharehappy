@@ -13,7 +13,7 @@ import java.io.IOException;
 @Slf4j
 public class DonorAuthCheckFilter implements Filter {
 
-    private static final String[] pathList = {"/donationPost/make/form"};
+    private static final String[] pathList = {"/donationPostComment/add"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,

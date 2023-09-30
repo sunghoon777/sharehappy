@@ -1,0 +1,56 @@
+.progress-bar{
+    background-color: #10c838 !important;
+}
+.percentage{
+    color: #10c838;
+}
+.content{
+    color: #888;
+}
+.article img{
+    max-width: 100%;
+}
+.category{
+    font-size: 1.5rem;
+    color: #00ab33;
+}
+.current_amount{
+    font-size: 1.5rem;
+}
+.target_amount{
+    font-size: 1rem;
+    color: #888;
+}
+.date{
+    font-size: 1rem;
+    font-weight: bolder;
+    color: #888;
+}
+.btn-success{
+    background-color: #10c838 !important;
+    border-color: #10c838 !important;
+}
+
+.comment-container-list{
+    list-style: none;
+}
+.comment-container {
+    border : 1px solid #e5e5e5;
+    border-radius: 1px;
+}
+.comment-date{
+    font-size: 0.7rem;
+    color: #888;
+}
+.comment-content{
+    font-size: 0.9rem;
+}
+.reply-view_button{
+    color: #10c838;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.reply{
+    border-top: 1px solid #e5e5e5;
+}
+

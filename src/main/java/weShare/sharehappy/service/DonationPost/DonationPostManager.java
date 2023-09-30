@@ -46,7 +46,7 @@ public class DonationPostManager {
     public List<DonationPostSummary> getDonationPosts(DonationPostSummaryRequest request){
         Optional.ofNullable(categoryRepository.findByCategoryName(request.getCategoryName()))
                 .orElseThrow(()->new NoExistingDonationPostCategory());
-        List<DonationPost> list = postRepository.findByCategorySortPostSortCriteria(
+        List<DonationPost> list = postRepository.findAllByCategoryNameWithOrganizationAndImages(
                 request.getPostSortCriteria(), request.getPage(), PageSize.MAIN_PAGE_SIZE.getSize(),request.getCategoryName());
         if(list.size() == 0){
             throw new NoMoreDonationPostException();
@@ -55,8 +55,8 @@ public class DonationPostManager {
     }
 
     public DonationPostDetail getDonation(Long id){
-        DonationPost donationPost = postRepository.findById(id).orElseThrow(()->new NoExistingDonationPost());
-        return donationPost.changeToDonationPostDetail();
+        DonationPost donationPost = postRepository.findByIdWithOrganizationAndImages(id).orElseThrow(()->new NoExistingDonationPost());
+        return donationPost.changeToDonationPostDetail(categoryRepository.findByCategoryName(donationPost.getCategoryName()).getKrName());
     }
 
     public Long coutDonationPost(){

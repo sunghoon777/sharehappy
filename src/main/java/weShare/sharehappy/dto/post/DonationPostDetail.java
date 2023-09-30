@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -17,10 +16,11 @@ public class DonationPostDetail {
     private String content;
     private Long targetAmount;
     private Long currentAmount;
-    private LocalDate regdate;
-    private LocalDate enddate;
+    private Double fundPercentage;
+    private Date startdate;
+    private Date enddate;
     private String categoryName;
-    private String thumbnailUrl;
+    private String categoryKrName;
     private String organizationName;
     private String organizationIntroduce;
 }

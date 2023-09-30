@@ -27,4 +27,9 @@ public class MessageInfoProvider {
         DefaultMessageSourceResolvable resolvable = new DefaultMessageSourceResolvable(code);
         return messageSource.getMessage(resolvable,Locale.getDefault());
     }
+
+    public String getMessage(String code,Object[] arguments){
+        DefaultMessageSourceResolvable resolvable = new DefaultMessageSourceResolvable(new String[]{code},arguments);
+        return messageSource.getMessage(resolvable,Locale.getDefault());
+    }
 }

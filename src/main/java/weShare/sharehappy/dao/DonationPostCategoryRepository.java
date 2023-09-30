@@ -9,5 +9,4 @@ public interface DonationPostCategoryRepository {
     DonationPostCategory findByCategoryName(String name);
     List<DonationPostCategory> findAllSortByCategoryOrderAsc();
 
-
 }

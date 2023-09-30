@@ -8,6 +8,8 @@ import weShare.sharehappy.dao.jpa.springdata.SpringDataUserRepository;
 import weShare.sharehappy.entity.Donor;
 import weShare.sharehappy.entity.User;
 
+import java.util.Optional;
+
 @Repository
 @AllArgsConstructor
 public class UserJpaRepository implements UserRepository {
@@ -15,7 +17,7 @@ public class UserJpaRepository implements UserRepository {
     private final SpringDataUserRepository userRepository;
 
     @Override
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 }

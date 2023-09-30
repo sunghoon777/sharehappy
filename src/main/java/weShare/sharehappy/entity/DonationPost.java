@@ -10,6 +10,8 @@ import weShare.sharehappy.dto.post.DonationPostSummary;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -54,9 +56,10 @@ public class DonationPost {
         return new DonationPostSummary(id,organization.getName(),title,thumNailImageUrl,currentAmount,fundPercentage);
     }
 
-    public DonationPostDetail changeToDonationPostDetail(){
-        String thumbnailUrl = images.stream().filter(image -> image.getIsThumbnail()).map(f -> f.getImageUrl()).findFirst().get();
-        return new DonationPostDetail(id,title,content,targetAmount,currentAmount,regdate,enddate,categoryName,thumbnailUrl,organization.getName(),organization.getIntroduce());
+    public DonationPostDetail changeToDonationPostDetail(String categoryKrName){
+        Date start = Date.from(regdate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date end = Date.from(enddate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return new DonationPostDetail(id,title,content,targetAmount,currentAmount,fundPercentage,start,end,categoryName,categoryKrName,organization.getName(),organization.getIntroduce());
     }
 
     public void changeContent(String updateContent){

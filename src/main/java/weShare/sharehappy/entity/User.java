@@ -2,6 +2,7 @@ package weShare.sharehappy.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 import weShare.sharehappy.dto.user.UserSummary;
 
 import javax.persistence.*;

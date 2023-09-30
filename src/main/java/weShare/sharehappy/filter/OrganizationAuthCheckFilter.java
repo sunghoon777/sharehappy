@@ -12,7 +12,7 @@ import java.io.IOException;
 @Slf4j
 public class OrganizationAuthCheckFilter implements Filter {
 
-    private static final String[] pathList = {"/donationPost/make/form","/donationPost/temp/image/upload"};
+    private static final String[] pathList = {"/donationPost/make/form","/donationPost/temp/image/upload","/donationPostComment/add"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,

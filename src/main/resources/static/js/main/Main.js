@@ -22,22 +22,22 @@ let addPostList = function (postSummaryList){
         let newDiv = document.createElement("div");
         let fundPercentage = parseInt(post.fundPercentage);
         let formattedAmount = new Intl.NumberFormat('ko-KR').format(post.currentAmount);
-        let html = '<div class="card">\n' +
-            '                    <img src="{0}" class="card-img-top">\n' +
+        let html = '<div class="card" onclick="window.location.href=\'/donationPost/{0}\'">\n' +
+            '                    <img src="{1}" class="card-img-top">\n' +
             '                    <div class="card-body container">\n' +
-            '                        <p class="title mt-1">{1}</p>\n' +
-            '                        <p class="organization-name mt-1">{2}</p>\n' +
+            '                        <p class="title mt-1">{2}</p>\n' +
+            '                        <p class="organization-name mt-1">{3}</p>\n' +
             '                        <div class="progress" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">\n' +
-            '                            <div class="progress-bar" style="width: {3}%"></div>\n' +
+            '                            <div class="progress-bar" style="width: {4}%"></div>\n' +
             '                        </div>\n' +
             '                        <div class="d-flex justify-content-between align-items-center">\n' +
-            '                            <span class="percentage">{4}%</span>\n' +
-            '                            <span>{5}원</span>\n' +
+            '                            <span class="percentage">{5}%</span>\n' +
+            '                            <span>{6}원</span>\n' +
             '                        </div>\n' +
             '                    </div>\n' +
             '                </div>';
         newDiv.className = "col-3 mb-4 px-1 py-1";
-        newDiv.innerHTML = html.format(post.thumbNailImageUrl,post.title,post.organizationName,fundPercentage,fundPercentage,formattedAmount);
+        newDiv.innerHTML = html.format(post.postId,post.thumbNailImageUrl,post.title,post.organizationName,fundPercentage,fundPercentage,formattedAmount);
         postContainer.appendChild(newDiv);
     });
 }

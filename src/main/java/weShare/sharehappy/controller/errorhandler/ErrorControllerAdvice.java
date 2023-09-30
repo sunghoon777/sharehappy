@@ -33,6 +33,12 @@ public class ErrorControllerAdvice {
         return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(NoExistingDonationPost.class)
+    public ResponseEntity<SimpleErrorResponse> noExistingDonationPostExHandle(NoExistingDonationPost exception){
+        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
+        return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(NoExistingDonationPostCategory.class)
     public ResponseEntity<SimpleErrorResponse> noCategoryExHandle(NoExistingDonationPostCategory exception){
         String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());

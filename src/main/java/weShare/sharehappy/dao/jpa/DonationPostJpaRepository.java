@@ -24,6 +24,11 @@ public class DonationPostJpaRepository implements DonationPostRepository {
     }
 
     @Override
+    public Optional<DonationPost> findByIdWithOrganizationAndImages(Long id) {
+        return repository.findByIdWithOrganizationAndImages(id);
+    }
+
+    @Override
     public Optional<DonationPost> findById(Long id) {
         return repository.findById(id);
     }
@@ -34,7 +39,7 @@ public class DonationPostJpaRepository implements DonationPostRepository {
     }
 
     @Override
-    public List<DonationPost> findByCategorySortPostSortCriteria(PostSortCriteria postSortCriteria, int page, int size,String categoryName) {
+    public List<DonationPost> findAllByCategoryNameWithOrganizationAndImages(PostSortCriteria postSortCriteria, int page, int size,String categoryName) {
         Slice<DonationPost> slice = null;
         PageRequest pageRequest = PageRequest.of(page,size);
         switch (postSortCriteria){
@@ -58,14 +63,14 @@ public class DonationPostJpaRepository implements DonationPostRepository {
                 break;
         }
         if(categoryName.equals("all")){
-            slice = repository.findDonationPosts(pageRequest);
+            slice = repository.findAllWithOrganization(pageRequest);
         }
         else{
-            slice = repository.findDonationPosts(pageRequest,categoryName);
+            slice = repository.findAllByCategoryNameWithOrganization(pageRequest,categoryName);
         }
         List<DonationPost> donationPosts = slice.getContent();
-        //Fetch Type이 Lazy이므로 직접 로딩함
-        donationPosts.stream().forEach(post -> post.getImages());
+        //image는 직접 로딩함 @Batch를 통하여 n+1문제는 해결
+        donationPosts.stream().forEach(p -> p.getImages());
         return donationPosts;
     }
 

@@ -40,7 +40,7 @@ public class RandomCodeSender {
 
     //인증 절차 서비스1, email 존재 확인 후 랜덤 코드 이메일 전송
     public String sendRandomCode(String email) throws MessagingException{
-        Optional<User> user = Optional.ofNullable(repository.findByEmail(email));
+        Optional<User> user = repository.findByEmail(email);
         //세션에 randomCode 저장
         String randomCode = sendCode(user.orElseThrow(()->new NoExistingUserException()));
         return randomCode;
