@@ -13,14 +13,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import weShare.sharehappy.Exception.NoExistingCommentsInPage;
+import weShare.sharehappy.constant.SessionKey;
 import weShare.sharehappy.dto.comment.DonationPostCommentsPageInfo;
 import weShare.sharehappy.dto.comment.DonationPostCommentsRequest;
 import weShare.sharehappy.dto.error.ApiValidationErrorResponse;
 import weShare.sharehappy.dto.error.FieldErrorInfo;
 import weShare.sharehappy.dto.error.RejectValueInfo;
 import weShare.sharehappy.dto.error.SimpleErrorResponse;
+import weShare.sharehappy.dto.user.UserSummary;
 import weShare.sharehappy.service.comment.DonationPostCommentManager;
 import weShare.sharehappy.service.message.MessageInfoProvider;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.HashSet;
 
 @Controller
 @AllArgsConstructor
@@ -30,9 +38,8 @@ public class DonationPostCommentInfoController {
     MessageInfoProvider messageInfoProvider;
 
     @ExceptionHandler(NoExistingCommentsInPage.class)
-    public ResponseEntity<Object> noExistingCommentsInPageExHandle(NoExistingCommentsInPage exception){
-        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName(),new Object[]{exception.getPage()});
-        return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.NOT_FOUND);
+    public String  noExistingCommentsInPageExHandle(NoExistingCommentsInPage exception, HttpServletResponse response){
+        return "redirect:/donationPostComment/comments/lastPage";
     }
 
     @GetMapping("/donationPostComment/childComments")
@@ -41,7 +48,7 @@ public class DonationPostCommentInfoController {
     }
 
     @GetMapping("/donationPostComment/comments")
-    public ResponseEntity<Object> getComments(@Validated @ModelAttribute DonationPostCommentsRequest request, BindingResult bindingResult){
+    public ResponseEntity<Object> getComments(@Validated @ModelAttribute DonationPostCommentsRequest request, BindingResult bindingResult, HttpServletRequest httpServletRequest){
         if(bindingResult.hasErrors()){
             ApiValidationErrorResponse response = new ApiValidationErrorResponse();
             for(FieldError fieldError : bindingResult.getFieldErrors()){
@@ -58,9 +65,23 @@ public class DonationPostCommentInfoController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         DonationPostCommentsPageInfo commentsPageInfo = commentManager.getPostComments(request);
+        HttpSession httpSession = httpServletRequest.getSession(false);
+        if(httpSession != null && httpSession.getAttribute(SessionKey.USER_AUTH.name()) != null){
+            UserSummary userSummary = (UserSummary) httpSession.getAttribute(SessionKey.USER_AUTH.name());
+            commentsPageInfo.constructCommentAcccessSet(userSummary.getEmail());
+        }
         return new ResponseEntity<>(commentsPageInfo,HttpStatus.OK);
     }
 
-
+    @GetMapping("/donationPostComment/comments/lastPage")
+    public ResponseEntity<Object> getLastPageComments(@RequestParam(name = "postId")Long postId,HttpServletRequest httpServletRequest){
+        DonationPostCommentsPageInfo commentsPageInfo = commentManager.getPostLastPageComments(postId);
+        HttpSession httpSession = httpServletRequest.getSession(false);
+        if(httpSession != null && httpSession.getAttribute(SessionKey.USER_AUTH.name()) != null){
+            UserSummary userSummary = (UserSummary) httpSession.getAttribute(SessionKey.USER_AUTH.name());
+            commentsPageInfo.constructCommentAcccessSet(userSummary.getEmail());
+        }
+        return new ResponseEntity<>(commentsPageInfo,HttpStatus.OK);
+    }
 
 }

@@ -15,18 +15,28 @@
     <div class="comment-container-list">
         <c:forEach var="comment" items="${commentsPageInfo.commentSummaries}">
             <div class="comment-container my-2 px-2 py-2">
+                <div class="comment-id" style="display: none">${comment.commentId}</div>
                 <div class="d-flex justify-content-between mb-3">
                     <span class="nickname fw-semibold">${comment.userName}</span><span class="comment-date">${comment.date}</span>
                 </div>
                 <p class="fw-lighter comment-content">${comment.content}</p>
+                <div class="comment-crud-container">
+                    <button type="button" class="reply-button btn btn-outline-success btn-sm">답장</button>
+                </div>
+                <c:if test="${commentsPageInfo.commentAccessSet.contains(comment.commentId)}">
+                    <div class="comment-crud-container">
+                        <button type="button" class="comment-update-button btn btn-outline-success btn-sm">수정</button>
+                        <button type="button" class="comment-delete-button btn btn-outline-danger btn-sm">삭제</button>
+                    </div>
+                </c:if>
                 <c:if test="${not empty comment.childCommentCount and comment.childCommentCount ne 0}">
                     <div id="${comment.commentId}">
                                     <span class="reply-view-icon">
                                         <i class="fa-solid fa-chevron-up" style="color: #10c838;"></i>
                                     </span>
                         <span class="reply-view_button">
-                                        <spring:message code="replyCount.commentView" arguments="${comment.childCommentCount}"/>
-                                    </span>
+                            <spring:message code="replyCount.commentView" arguments="${comment.childCommentCount}"/>
+                        </span>
                         <div class="reply-container ms-3" load="false" >
 
                         </div>
@@ -84,24 +94,48 @@
 <div class="modal fade" id="reply-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+            <input type="hidden" id="reply-modal-comment-id">
             <div class="modal-header">
                 <h1 class="modal-title fs-5"><spring:message code="header.replyModal"/></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="recipientId">
                 <div class="mb-3">
-                    <label for="recipientName" class="col-form-label"><spring:message code="recipient.replyModal"/></label>
-                    <input type="text" class="form-control" readonly id="recipientName">
+                    <label for="reply-modal-recipient-name" class="col-form-label"><spring:message code="recipient.replyModal"/></label>
+                    <input type="text" class="form-control" readonly id="reply-modal-recipient-name">
                 </div>
                 <div class="mb-3">
-                    <label for="replyMessage" class="col-form-label"><spring:message code="content.replyModal"/></label>
-                    <textarea class="form-control" id="replyMessage"></textarea>
+                    <label for="reply-modal-content" class="col-form-label"><spring:message code="content.replyModal"/></label>
+                    <textarea class="form-control" id="reply-modal-content"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><spring:message code="close.replyModal"/></button>
-                <button type="button" id="replyButton" class="btn btn-success"><spring:message code="submit.replyModal"/></button>
+                <button type="button" id="reply-modal-submit-button" class="btn btn-success"><spring:message code="submit.replyModal"/></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- update Modal -->
+<div class="modal fade" id="update-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <input type="hidden" id="update-modal-comment-id">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModal"><spring:message code="header.commentModal"/></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="comment-modal-content" class="col-form-label"><spring:message code="content.commentModal"/></label>
+                        <textarea class="form-control" id="update-modal-content"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><spring:message code="close.commentModal"/></button>
+                <button type="button" id="update-modal-submit-button" class="btn btn-success"><spring:message code="update.updateModal"/></button>
             </div>
         </div>
     </div>

@@ -9,6 +9,7 @@ import weShare.sharehappy.dto.comment.DonationPostCommentSummary;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -40,6 +41,7 @@ public class DonationPostComment {
         this.content = content;
         this.postId = postId;
         this.user = user;
+        childComments = new ArrayList<>();
     }
 
     public DonationPostComment(LocalDateTime date, String content, Long postId, User user, DonationPostComment parentComment) {
@@ -64,7 +66,7 @@ public class DonationPostComment {
             name = ((Donor) user).getNickname();
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return new DonationPostCommentSummary(id,name,date.format(formatter),content,childComments.size());
+        return new DonationPostCommentSummary(id,name,user.getEmail(),date.format(formatter),content,childComments.size());
     }
 
     public DonationPostChildCommentSummary changeToChildSummary(){
@@ -79,4 +81,7 @@ public class DonationPostComment {
         return new DonationPostChildCommentSummary(id,name,date.format(formatter),content);
     }
 
+    public List<DonationPostComment> getChildComments() {
+        return childComments;
+    }
 }

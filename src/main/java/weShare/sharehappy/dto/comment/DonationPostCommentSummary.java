@@ -11,6 +11,7 @@ import java.util.Date;
 public class DonationPostCommentSummary {
     private Long commentId;
     private String userName;
+    private String email;
     private String date;
     private String content;
     private Integer childCommentCount;

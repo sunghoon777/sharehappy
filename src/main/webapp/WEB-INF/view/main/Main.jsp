@@ -58,7 +58,7 @@
 <div class="container main mt-5">
     <div id="postSummary-container" class="row">
         <c:forEach var="post" items="${postSummaryList}" varStatus="">
-            <div class="col-3 mb-4 px-1 py-1" onclick="">
+            <div class="col-3 mb-4 px-1 py-1"  onclick="window.location.href='/donationPost/${post.postId}'">
                 <div class="card">
                     <img src="${post.thumbNailImageUrl}" class="card-img-top">
                     <div class="card-body container">

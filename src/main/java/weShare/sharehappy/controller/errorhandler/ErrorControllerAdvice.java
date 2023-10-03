@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -33,6 +34,12 @@ public class ErrorControllerAdvice {
         return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(MissingPathVariableException.class)
+    public ResponseEntity<SimpleErrorResponse> missPathVariableExHandle(MissingPathVariableException exception){
+        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
+        return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(NoExistingDonationPost.class)
     public ResponseEntity<SimpleErrorResponse> noExistingDonationPostExHandle(NoExistingDonationPost exception){
         String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
@@ -41,6 +48,12 @@ public class ErrorControllerAdvice {
 
     @ExceptionHandler(NoExistingDonationPostCategory.class)
     public ResponseEntity<SimpleErrorResponse> noCategoryExHandle(NoExistingDonationPostCategory exception){
+        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
+        return new ResponseEntity<>(new SimpleErrorResponse(message), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NoExistingDonationPostComment.class)
+    public ResponseEntity<SimpleErrorResponse> noExistCommentExHandle(NoExistingDonationPostComment exception){
         String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
         return new ResponseEntity<>(new SimpleErrorResponse(message), HttpStatus.NOT_FOUND);
     }

@@ -20,7 +20,7 @@ public interface SpringDataDonationPostCommentRepository extends JpaRepository<D
     Long countDonationPostComments(Long postId);
 
     Optional<DonationPostComment> findById(Long commentId);
-    @Query(value = "select c from DonationPostComment c join fetch c.user")
+    @Query(value = "select c from DonationPostComment c join fetch c.user where c.id = :commentId")
     Optional<DonationPostComment> findByIdWithUser(Long commentId);
 
     @Query(value = "select c from DonationPostComment c join fetch c.user where c.parentComment.id = :commentId")

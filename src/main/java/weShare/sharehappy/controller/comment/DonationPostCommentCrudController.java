@@ -53,12 +53,13 @@ public class DonationPostCommentCrudController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         UserSummary userSummary = (UserSummary) httpSession.getAttribute(SessionKey.USER_AUTH.name());
-        DonationPostCommentSummary commentSummary = commentManager.addComment(addRequest,userSummary.getEmail());
-        return new ResponseEntity<>(commentSummary,HttpStatus.OK);
+        commentManager.addComment(addRequest,userSummary.getEmail());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/donationPostComment/remove")
-    public ResponseEntity<Object> removeComment(@PathVariable(name = "commentId")Long commentId,HttpSession httpSession){
+    public ResponseEntity<Object> removeComment(@RequestParam(name = "commentId")Long commentId,HttpSession httpSession){
+        System.out.println("ssf");
         UserSummary userSummary = (UserSummary) httpSession.getAttribute(SessionKey.USER_AUTH.name());
         commentManager.removeComment(commentId,userSummary.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
@@ -82,8 +83,8 @@ public class DonationPostCommentCrudController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         UserSummary userSummary = (UserSummary) httpSession.getAttribute(SessionKey.USER_AUTH.name());
-        DonationPostCommentSummary commentSummary = commentManager.updateComment(updateRequest,userSummary.getEmail());
-        return new ResponseEntity<>(commentSummary,HttpStatus.OK);
+        commentManager.updateComment(updateRequest,userSummary.getEmail());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/donationPostComment/reply/add")
@@ -104,8 +105,8 @@ public class DonationPostCommentCrudController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         UserSummary userSummary = (UserSummary) httpSession.getAttribute(SessionKey.USER_AUTH.name());
-        DonationPostChildCommentSummary childCommentSummary = commentManager.addChildComment(addRequest,userSummary.getEmail());
-        return new ResponseEntity<>(childCommentSummary,HttpStatus.OK);
+        commentManager.addChildComment(addRequest,userSummary.getEmail());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

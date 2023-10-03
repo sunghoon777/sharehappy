@@ -1,5 +1,16 @@
 window.onload = function () {
+    commentButtonClickProcess();
     replyViewButtonClickProcess();
+    replyButtonClickProcess();
+    commentUpdateButtonClickProcess();
+    deleteButtonClickProcess();
+}
+
+function setClickEventAfterPageLoad(){
+    replyViewButtonClickProcess();
+    replyButtonClickProcess();
+    commentUpdateButtonClickProcess();
+    deleteButtonClickProcess();
 }
 
 //페이지 클릭 이벤트
@@ -13,6 +24,7 @@ function pageClick(page, postId, canClick){
     let url = '/donationPostComment/comments?' + param.toString();
     let option = {
         method: 'GET',
+        redirect: 'follow',
         headers: {
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         }
@@ -23,9 +35,13 @@ function pageClick(page, postId, canClick){
                 response.json().then(jsonData => {
                     let commentsPageInfo = JSON.parse(JSON.stringify(jsonData, null, null));
                     loadCommentsPageInfo(commentsPageInfo);
-                    replyViewButtonClickProcess();
+                    setClickEventAfterPageLoad();
                 });
-            } else {
+            }
+            else if(response.redirected){
+                requestLastPage(postId);
+            }
+            else {
                 response.json().then(data => {
                     Swal.fire({
                         icon: 'error',
@@ -44,12 +60,44 @@ function pageClick(page, postId, canClick){
         })
 }
 
+function requestLastPage(postId){
+    let param = new URLSearchParams();
+    param.append('postId',postId);
+    let url = '/donationPostComment/comments/lastPage?'+param.toString();
+    let option = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        }
+    };
+    fetch(url,option)
+        .then(response=>{
+            if(response.ok){
+                response.json().then(jsonData => {
+                    let commentsPageInfo = JSON.parse(JSON.stringify(jsonData, null, null));
+                    loadCommentsPageInfo(commentsPageInfo);
+                    setClickEventAfterPageLoad();
+                });
+            }
+            else{
+                response.json().then(data => {
+                    console.log(data.message);
+                });
+            }
+        })
+}
+
+
 //댓글,페이징 정보 로딩 로직
-let loadCommentsPageInfo = function (commentsPageInfo) {
+function loadCommentsPageInfo (commentsPageInfo) {
     let container = document.getElementById('comment-container');
     let postId = container.getAttribute('postId');
     //comment list html 부분 추가
     let html = '<div class="comment-container-list">'
+    let commentAccessSet = new Set();
+    for(let i=0;i<commentsPageInfo.commentAccessSet.length;i++){
+        commentAccessSet.add(commentsPageInfo.commentAccessSet[i]);
+    }
     for (let i = 0; i < commentsPageInfo.commentSummaries.length; i++) {
         let commentSummary = commentsPageInfo.commentSummaries[i];
         let commentId = commentSummary.commentId;
@@ -58,18 +106,29 @@ let loadCommentsPageInfo = function (commentsPageInfo) {
         let content = commentSummary.content;
         let childCommentCount = commentSummary.childCommentCount;
         let temp = ' <div class="comment-container my-2 px-2 py-2">\n' +
+            '                <div class="comment-id" style="display: none">{0}</div>'+
             '                <div class="d-flex justify-content-between mb-3">\n' +
-            '                    <span class="nickname fw-semibold">{0}</span><span class="comment-date">{1}</span>\n' +
+            '                    <span class="nickname fw-semibold">{1}</span><span class="comment-date">{2}</span>\n' +
             '                </div>\n' +
-            '                <p class="fw-lighter comment-content">{2}</p>'
+            '                <p class="fw-lighter comment-content">{3}</p>'+
+            '                <div class="comment-crud-container">\n' +
+            '                    <button type="button" class="reply-button btn btn-outline-success btn-sm">답장</button>\n' +
+            '                </div>';
+
+        if(commentAccessSet.has(commentId)){
+            temp += ' <div class="comment-crud-container">\n' +
+                '      <button type="button" class="comment-update-button btn btn-outline-success btn-sm">수정</button>\n' +
+                '                        <button type="button" class="comment-delete-button btn btn-outline-danger btn-sm">삭제</button>'+
+                '    </div>';
+        }
 
         if (childCommentCount != 0) {
-            temp += '  <div id="{3}">\n' +
+            temp += '  <div id="{4}">\n' +
                 '                                    <span class="reply-view-icon">\n' +
                 '                                        <i class="fa-solid fa-chevron-up" style="color: #10c838;"></i>\n' +
                 '                                    </span>\n' +
                 '                        <span class="reply-view_button">\n' +
-                '                                        답글 {4}개\n' +
+                '                                        답글 {5}개\n' +
                 '                                    </span>\n' +
                 '                        <div class="reply-container ms-3" load="false" >\n' +
                 '\n' +
@@ -77,7 +136,7 @@ let loadCommentsPageInfo = function (commentsPageInfo) {
                 '                    </div>';
         }
         temp += '</div>';
-        html += temp.format(userName, date, content, commentId, childCommentCount);
+        html += temp.format(commentId,userName, date, content, commentId, childCommentCount);
     }
     html += '</div>';
 
@@ -113,7 +172,7 @@ let loadCommentsPageInfo = function (commentsPageInfo) {
 
 
 //commentButton 클릭 로직 설정
-let replyViewButtonClickProcess = function () {
+function replyViewButtonClickProcess () {
     let replyButtons = document.getElementsByClassName('reply-view_button');
     for (let i = 0; i < replyButtons.length; i++) {
         replyButtons[i].addEventListener('click', () => {
@@ -164,7 +223,7 @@ let replyViewButtonClickProcess = function () {
     }
 }
 
-let addChildComments = function (container, childComments) {
+function addChildComments (container, childComments) {
     for (let i = 0; i < childComments.length; i++) {
         let userName = childComments[i].userName;
         let date = childComments[i].date;

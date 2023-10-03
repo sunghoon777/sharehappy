@@ -57,7 +57,7 @@
                 <spring:message code="moneyUnit"/> <spring:message code="targetAmount.comment.postView"/></div>
             <div class="d-grid gap-2">
                 <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-success"><spring:message
+                    <button id="donate-button" type="button" class="btn btn-success"><spring:message
                             code="donationButton.postView"/></button>
                 </div>
             </div>

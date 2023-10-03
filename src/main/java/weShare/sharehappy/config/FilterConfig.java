@@ -3,9 +3,8 @@ package weShare.sharehappy.config;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import weShare.sharehappy.filter.DonorAuthCheckFilter;
 import weShare.sharehappy.filter.LogFilter;
-import weShare.sharehappy.filter.OrganizationAuthCheckFilter;
+import weShare.sharehappy.filter.UserAuthCheckFilter;
 
 
 import javax.servlet.Filter;
@@ -23,23 +22,12 @@ public class FilterConfig {
     }
 
     @Bean
-    public FilterRegistrationBean donorAuthCheckFilter() {
+    public FilterRegistrationBean UserAuthCheckFilter() {
         FilterRegistrationBean<Filter> filterRegistrationBean = new
                 FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new DonorAuthCheckFilter());
+        filterRegistrationBean.setFilter(new UserAuthCheckFilter());
         filterRegistrationBean.setOrder(2);
         filterRegistrationBean.addUrlPatterns("/*");
         return filterRegistrationBean;
     }
-
-    @Bean
-    public FilterRegistrationBean organizationAuthCheckFilter() {
-        FilterRegistrationBean<Filter> filterRegistrationBean = new
-                FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new OrganizationAuthCheckFilter());
-        filterRegistrationBean.setOrder(3);
-        filterRegistrationBean.addUrlPatterns("/*");
-        return filterRegistrationBean;
-    }
-
 }

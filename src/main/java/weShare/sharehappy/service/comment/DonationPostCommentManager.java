@@ -48,7 +48,7 @@ public class DonationPostCommentManager {
         double count = commentRepository.countDonationPostComments(postId);
         int sizePerPage = PageSize.COMMENT_PAGE_SIZE.getSize();
         int pageListSize = PageSize.PAGE_LIST_SIZE.getSize();
-        int lastPage = (int)Math.ceil(count/ sizePerPage)-1;
+        int lastPage = (int)Math.ceil(count/ sizePerPage)-1<0?0:(int)Math.ceil(count/ sizePerPage)-1;
         int startPage = lastPage/pageListSize*pageListSize;
         int currentPage = lastPage;
         List<DonationPostCommentSummary> commentSummaries = commentRepository.findAllByPostIdSortRecentCommentWithUserAndChildComments(lastPage,sizePerPage,postId).getContent().stream()
@@ -62,48 +62,45 @@ public class DonationPostCommentManager {
     }
 
     @Transactional
-    public DonationPostCommentSummary addComment(DonationPostCommentAddRequest addRequest, String email){
+    public void addComment(DonationPostCommentAddRequest addRequest, String email){
         postRepository.findById(addRequest.getPostId())
                 .orElseThrow(()->new NoExistingDonationPost());
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()->new NoExistingUserException());
         DonationPostComment donationPostComment = new DonationPostComment(LocalDateTime.now(),addRequest.getContent(),addRequest.getPostId(),user);
         commentRepository.save(donationPostComment);
-        return donationPostComment.changeToSummary();
     }
 
     @Transactional
     public void removeComment(Long commentId,String email){
         DonationPostComment comment = commentRepository.findByIdWithUser(commentId)
                 .orElseThrow(()->new NoExistingDonationPostComment());
-        if(comment.getUser().getEmail().equals(email)){
+        if(!comment.getUser().getEmail().equals(email)){
             throw new WrongAccessDonationPostCommentException();
         }
         commentRepository.delete(comment);
     }
 
     @Transactional
-    public DonationPostCommentSummary updateComment(DonationPostCommentUpdateRequest updateRequest, String email){
+    public void updateComment(DonationPostCommentUpdateRequest updateRequest, String email){
         DonationPostComment comment = commentRepository.findByIdWithUser(updateRequest.getCommentId())
                 .orElseThrow(()->new NoExistingDonationPostComment());
-        if(comment.getUser().getEmail().equals(email)){
+        if(!comment.getUser().getEmail().equals(email)){
             throw new WrongAccessDonationPostCommentException();
         }
         comment.changeContent(updateRequest.getContent());
-        return comment.changeToSummary();
     }
 
     @Transactional
-    public DonationPostChildCommentSummary addChildComment(DonationPostCommentReplyAddRequest addRequest,String email){
+    public void addChildComment(DonationPostCommentReplyAddRequest addRequest,String email){
         postRepository.findById(addRequest.getPostId())
                 .orElseThrow(()->new NoExistingDonationPost());
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()->new NoExistingUserException());
-        DonationPostComment parentComment = commentRepository.findByIdWithUser(addRequest.getParentId())
+        DonationPostComment parentComment = commentRepository.findById(addRequest.getParentId())
                 .orElseThrow(()->new NoExistingDonationPostParentComment());
         DonationPostComment comment = new DonationPostComment(LocalDateTime.now(),addRequest.getContent(),addRequest.getPostId(),user,parentComment);
         commentRepository.save(comment);
-        return comment.changeToChildSummary();
     }
 
 }

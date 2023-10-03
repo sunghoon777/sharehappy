@@ -20,6 +20,7 @@ import weShare.sharehappy.dto.error.SimpleErrorResponse;
 import weShare.sharehappy.dto.post.DonationPostDetail;
 import weShare.sharehappy.dto.post.DonationPostSummary;
 import weShare.sharehappy.dto.post.DonationPostSummaryRequest;
+import weShare.sharehappy.dto.user.UserSummary;
 import weShare.sharehappy.service.comment.DonationPostCommentManager;
 import weShare.sharehappy.service.donationpost.DonationPostManager;
 import weShare.sharehappy.service.message.MessageInfoProvider;
@@ -67,7 +68,9 @@ public class DonationPostInfoController {
         DonationPostCommentsPageInfo commentsPageInfo = commentManager.getPostLastPageComments(id);
         HttpSession httpSession = httpServletRequest.getSession(false);
         if(httpSession != null && httpSession.getAttribute(SessionKey.USER_AUTH.name()) != null){
-            model.addAttribute("userSummary",httpSession.getAttribute(SessionKey.USER_AUTH.name()));
+            UserSummary userSummary = (UserSummary) httpSession.getAttribute(SessionKey.USER_AUTH.name());
+            model.addAttribute("userSummary",userSummary);
+            commentsPageInfo.constructCommentAcccessSet(userSummary.getEmail());
         }
         model.addAttribute("donationPostDetail",donationPostDetail);
         model.addAttribute("commentsPageInfo",commentsPageInfo);
