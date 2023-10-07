@@ -11,6 +11,7 @@ import weShare.sharehappy.dao.jpa.springdata.SpringDataDonationPostRepository;
 import weShare.sharehappy.entity.DonationPost;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Repository
@@ -72,6 +73,11 @@ public class DonationPostJpaRepository implements DonationPostRepository {
         //image는 직접 로딩함 @Batch를 통하여 n+1문제는 해결
         donationPosts.stream().forEach(p -> p.getImages());
         return donationPosts;
+    }
+
+    @Override
+    public List<String> getOrganizationNamesByPostIds(List<Long> postIds){
+        return repository.findAllByPostIdsWithDonationPost(postIds).stream().map(p -> p.getOrganization().getName()).collect(Collectors.toList());
     }
 
 }

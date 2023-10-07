@@ -1,7 +1,6 @@
 package weShare.sharehappy.controller.donationpost;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import weShare.sharehappy.Exception.NoExistingDonationPost;
+import weShare.sharehappy.Exception.post.NoExistingDonationPost;
 import weShare.sharehappy.constant.SessionKey;
 import weShare.sharehappy.dto.comment.DonationPostCommentsPageInfo;
 import weShare.sharehappy.dto.error.ApiValidationErrorResponse;

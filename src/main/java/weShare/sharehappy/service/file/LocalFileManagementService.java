@@ -2,8 +2,8 @@ package weShare.sharehappy.service.file;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
-import weShare.sharehappy.Exception.FileDeleteException;
-import weShare.sharehappy.Exception.FileStoreException;
+import weShare.sharehappy.Exception.file.FileDeleteException;
+import weShare.sharehappy.Exception.file.FileStoreException;
 
 import java.io.File;
 import java.io.IOException;

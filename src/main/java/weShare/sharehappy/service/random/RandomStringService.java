@@ -2,7 +2,11 @@ package weShare.sharehappy.service.random;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
+import java.util.UUID;
+
 @Service
 public class RandomStringService {
 
@@ -84,6 +88,11 @@ public class RandomStringService {
             result = (char)(97 + random.nextInt(26));
         }
         return result;
+    }
+
+    public String getRandomDonationOrderId(Long postId,Long userId){
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
     }
 
 

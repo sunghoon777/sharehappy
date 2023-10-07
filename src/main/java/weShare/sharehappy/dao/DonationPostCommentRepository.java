@@ -12,10 +12,8 @@ public interface DonationPostCommentRepository {
     DonationPostComment save(DonationPostComment donationPostComment);
     void delete(DonationPostComment donationPostComment);
     Page<DonationPostComment> findAllByPostIdSortRecentCommentWithUserAndChildComments(int page, int size, Long postId);
-
     Optional<DonationPostComment> findById(Long commentId);
     Optional<DonationPostComment> findByIdWithUser(Long commentId);
     List<DonationPostComment> findChildCommentsWithUser(Long commentId);
-
     Long countDonationPostComments(Long postId);
 }

@@ -49,7 +49,7 @@
 								</li>
 							</c:if>
 							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="#">
+								<a class="nav-link active" aria-current="page" href="/myPage">
 									<span><spring:message code="myInfo.menu"/></span>
 								</a>
 							</li>

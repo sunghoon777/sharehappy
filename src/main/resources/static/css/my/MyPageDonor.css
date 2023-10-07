@@ -1,0 +1,37 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 240px;
+    z-index: 600;
+    border-right: 1px #fbfbfb solid;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        width: 100%;
+    }
+}
+
+.sidebar .active {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.main-logo {
+    text-align: center;
+    color: #10c838;
+}
+
+.sidebar-element {
+    color: #10c838;
+}
+
+.list-group-item {
+    cursor: pointer;
+}
+.table-default{
+    background-color: #eeeeee !important;
+}

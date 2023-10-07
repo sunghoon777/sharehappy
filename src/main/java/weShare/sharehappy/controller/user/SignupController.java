@@ -9,7 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import weShare.sharehappy.Exception.ExistingUserException;
+import weShare.sharehappy.Exception.user.ExistingUserException;
 import weShare.sharehappy.dto.error.ApiValidationErrorResponse;
 import weShare.sharehappy.dto.error.FieldErrorInfo;
 import weShare.sharehappy.dto.error.RejectValueInfo;

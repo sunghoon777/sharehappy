@@ -12,6 +12,6 @@ public interface DonationPostRepository {
     Optional<DonationPost> findById(Long id);
     Long counDonationPost();
     List<DonationPost> findAllByCategoryNameWithOrganizationAndImages(PostSortCriteria postSortCriteria, int page, int size,String categoryName);
-
+    List<String> getOrganizationNamesByPostIds(List<Long> postIds);
 
 }

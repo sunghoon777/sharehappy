@@ -16,9 +16,9 @@ import java.io.IOException;
 public class UserAuthCheckFilter implements Filter {
 
     private static final String[] commonAuthPathList = {"/donationPostComment/add","/donationPostComment/remove",
-            "/donationPostComment/update", "/donationPostComment/reply/add"};
+            "/donationPostComment/update", "/donationPostComment/reply/add","/donation/form","/myPage"};
     private static final String[] organizationAuthPathList = {"/donationPost/make/form","/donationPost/temp/image/upload"};
-    private static final String[] donorAuthPathList = {};
+    private static final String[] donorAuthPathList = {"/donation/form","/donation/prepare","/donation/verify"};
 
 
     @Override

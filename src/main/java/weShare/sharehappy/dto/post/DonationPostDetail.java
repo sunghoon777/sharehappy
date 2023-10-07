@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -14,11 +16,11 @@ public class DonationPostDetail {
     private Long id;
     private String title;
     private String content;
-    private Long targetAmount;
-    private Long currentAmount;
+    private BigDecimal targetAmount;
+    private BigDecimal currentAmount;
     private Double fundPercentage;
-    private Date startdate;
-    private Date enddate;
+    private String startdate;
+    private String enddate;
     private String categoryName;
     private String categoryKrName;
     private String organizationName;

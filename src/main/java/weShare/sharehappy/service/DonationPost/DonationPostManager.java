@@ -7,7 +7,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import weShare.sharehappy.Exception.*;
+import weShare.sharehappy.Exception.file.AwsS3StoreFilesException;
+import weShare.sharehappy.Exception.post.NoExistingDonationPost;
+import weShare.sharehappy.Exception.post.NoMoreDonationPostException;
+import weShare.sharehappy.Exception.postcategory.NoExistingDonationPostCategory;
+import weShare.sharehappy.Exception.user.NoExistingUserException;
 import weShare.sharehappy.constant.PageSize;
 import weShare.sharehappy.dao.DonationPostCategoryRepository;
 import weShare.sharehappy.dao.DonationPostImageRepository;
@@ -22,11 +26,10 @@ import weShare.sharehappy.entity.DonationPostImage;
 import weShare.sharehappy.entity.Organization;
 import weShare.sharehappy.service.file.AwsS3FileManagementService;
 import java.io.File;
-import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -51,12 +54,17 @@ public class DonationPostManager {
         if(list.size() == 0){
             throw new NoMoreDonationPostException();
         }
-        return list.stream().map(post -> post.changeToLisInfo()).collect(Collectors.toList());
+        return list.stream().map(post -> post.changeToDonationPostSummary()).collect(Collectors.toList());
     }
 
     public DonationPostDetail getDonation(Long id){
         DonationPost donationPost = postRepository.findByIdWithOrganizationAndImages(id).orElseThrow(()->new NoExistingDonationPost());
         return donationPost.changeToDonationPostDetail(categoryRepository.findByCategoryName(donationPost.getCategoryName()).getKrName());
+    }
+
+    public DonationPostSummary getDonationSummary(Long id){
+        DonationPost donationPost = postRepository.findByIdWithOrganizationAndImages(id).orElseThrow(()->new NoExistingDonationPost());
+        return donationPost.changeToDonationPostSummary();
     }
 
     public Long coutDonationPost(){
@@ -79,7 +87,7 @@ public class DonationPostManager {
                 .orElseThrow(()->new NoExistingUserException());
         //모금합 추가
         DonationPost donationPost = postRepository
-                .save(new DonationPost(request.getTitle(),request.getContent(),request.getTargetAmount(),0L, LocalDate.now(),request.getEndDate(),request.getCategory(),organization));
+                .save(new DonationPost(request.getTitle(),request.getContent(),request.getTargetAmount(),new BigDecimal("0"), LocalDate.now(),request.getEndDate(),request.getCategory(),organization));
         //aws s3에 저장
         List<String> imageUrlList = new ArrayList<>(); //content 이미지 url
         String thumbNailUrl = ""; // 썸네일 이미지 url

@@ -152,7 +152,6 @@ function commentUpdateButtonClickProcess(){
             "commentId" : commentId
         }
         let url = '/donationPostComment/update';
-        let redirectLocation = "/donationPost/"+postId;
         let option = {
             method: 'PATCH',
             redirect: 'follow',

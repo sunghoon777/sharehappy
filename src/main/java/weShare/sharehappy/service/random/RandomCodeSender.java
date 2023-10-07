@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import weShare.sharehappy.Exception.NoExistingUserException;
+import weShare.sharehappy.Exception.user.NoExistingUserException;
 import weShare.sharehappy.dao.UserRepository;
 import weShare.sharehappy.entity.User;
 import weShare.sharehappy.vo.SmtpSettingInfo;

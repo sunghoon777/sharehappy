@@ -10,7 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import weShare.sharehappy.Exception.PasswordMismatchException;
+import weShare.sharehappy.Exception.auth.PasswordMismatchException;
 import weShare.sharehappy.constant.CookieKey;
 import weShare.sharehappy.constant.SessionKey;
 import weShare.sharehappy.dto.error.ApiValidationErrorResponse;

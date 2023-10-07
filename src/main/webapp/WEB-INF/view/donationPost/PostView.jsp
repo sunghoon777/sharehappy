@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
+    <script src="/js/donationPost/PostView.js"></script>
     <!-- font  -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,9 +45,7 @@
             <div class="progress mb-3" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                 <div class="progress-bar" style="width: ${donationPostDetail.fundPercentage}%"></div>
             </div>
-            <div class="mb-3 date"><fmt:formatDate value="${donationPostDetail.startdate}"
-                                                   pattern="yyyy-MM-dd"/>~<fmt:formatDate
-                    value="${donationPostDetail.enddate}" pattern="yyyy-MM-dd"/></div>
+            <div class="mb-3 date">${donationPostDetail.startdate}~${donationPostDetail.enddate}</div>
             <fmt:formatNumber var="currentAmount" value="${donationPostDetail.currentAmount}" type="currency"
                               currencyCode="KRW"/>
             <div class="mb-3 current_amount">${fn:substringBefore(currentAmount.replace('₩', ''),'.')}
@@ -57,7 +56,7 @@
                 <spring:message code="moneyUnit"/> <spring:message code="targetAmount.comment.postView"/></div>
             <div class="d-grid gap-2">
                 <div class="d-grid gap-2">
-                    <button id="donate-button" type="button" class="btn btn-success"><spring:message
+                    <button onclick="donateButtonClick()" id="donate-button" type="button" class="btn btn-success" postId="${donationPostDetail.id}"><spring:message
                             code="donationButton.postView"/></button>
                 </div>
             </div>

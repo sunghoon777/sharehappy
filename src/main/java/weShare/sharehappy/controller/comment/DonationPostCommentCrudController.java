@@ -9,7 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import weShare.sharehappy.Exception.WrongAccessDonationPostCommentException;
+import weShare.sharehappy.Exception.comment.WrongAccessDonationPostCommentException;
 import weShare.sharehappy.constant.SessionKey;
 import weShare.sharehappy.dto.comment.*;
 import weShare.sharehappy.dto.error.ApiValidationErrorResponse;

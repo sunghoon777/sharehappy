@@ -3,17 +3,15 @@ package weShare.sharehappy.service.user;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import weShare.sharehappy.Exception.NoExistingUserException;
-import weShare.sharehappy.Exception.PasswordMismatchException;
+import weShare.sharehappy.Exception.user.NoExistingUserException;
+import weShare.sharehappy.Exception.auth.PasswordMismatchException;
 import weShare.sharehappy.dao.DonorRepository;
 import weShare.sharehappy.dao.OrganizationRepository;
-import weShare.sharehappy.dao.UserRepository;
-import weShare.sharehappy.dto.findpassword.FindPasswordRequest1;
 import weShare.sharehappy.dto.login.LoginRequest;
 import weShare.sharehappy.dto.user.UserSummary;
 import weShare.sharehappy.entity.Donor;
 import weShare.sharehappy.entity.Organization;
-import weShare.sharehappy.entity.User;
+
 import java.util.Optional;
 
 @Service
@@ -33,7 +31,7 @@ public class UserLoginService {
             userSummary = organization.changeToUserSummary();
         }
         else{
-            Donor donor = Optional.ofNullable(donorRepository.findByEmail(loginRequest.getEmail())).orElseThrow(()->new NoExistingUserException());
+            Donor donor = donorRepository.findByEmail(loginRequest.getEmail()).orElseThrow(()->new NoExistingUserException());
             encodingPassword = donor.getPassword();
             userSummary = donor.changeToUserSummary();
         }

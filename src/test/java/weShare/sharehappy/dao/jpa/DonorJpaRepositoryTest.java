@@ -30,7 +30,7 @@ class DonorJpaRepositoryTest {
 
     @Test
     void 유저찾기성공() {
-        Assertions.assertThat(repository.findByEmail("test1@test.com").getEmail()).isEqualTo("test1@test.com");
+        Assertions.assertThat(repository.findByEmail("test1@test.com").get().getEmail()).isEqualTo("test1@test.com");
     }
 
     @Test

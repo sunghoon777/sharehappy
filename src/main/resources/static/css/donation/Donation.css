@@ -1,0 +1,51 @@
+.title{
+    color: #10c838;
+    text-align: center;
+}
+.thumbnail{
+    height: 25rem;
+    object-fit: cover;
+}
+.organization-name{
+    font-size: 1rem;
+    text-align: center;
+    color: #888;
+}
+.post-title{
+    color: #7CD2B3;
+    font-size: 1.5rem;
+    text-align: center;
+}
+.donation-container{
+    border: 1px solid lightgrey;
+}
+.text-donation{
+    font-size: 1.5rem;
+    text-align: center;
+}
+.text2-donation{
+    font-size: 1.0rem;
+    text-align: center;
+    color: #888;
+}
+#donation-amount{
+    width: 218px;
+    height: 41px;
+    margin-right: 3px;
+    padding-right: 10px;
+    border: 1px solid #ccc;
+    color: #00ab33;
+    font-family: arial;
+    font-size: 32px;
+    line-height: 41px;
+    font-weight: 700;
+    text-align: right;
+    display: inline-block;
+}
+.btn-success{
+    background-color: #10c838 !important;
+    border-color: #10c838 !important;
+}
+#error{
+    color: red;
+}

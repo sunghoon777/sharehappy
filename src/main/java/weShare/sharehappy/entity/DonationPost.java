@@ -8,9 +8,11 @@ import weShare.sharehappy.dto.post.DonationPostDetail;
 import weShare.sharehappy.dto.post.DonationPostSummary;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +27,8 @@ public class DonationPost {
     private Long id;
     private String title;
     private String content;
-    private Long targetAmount;
-    private Long currentAmount;
+    private BigDecimal targetAmount;
+    private BigDecimal currentAmount;
     @Column(updatable = false)
     private LocalDate regdate;
     private LocalDate enddate;
@@ -40,7 +42,7 @@ public class DonationPost {
     @Formula("current_amount*100/target_amount") //purcentage 계산을 위한 것
     private Double fundPercentage;
 
-    public DonationPost(String title, String content, Long targetAmount, Long currentAmount, LocalDate regdate, LocalDate enddate, String categoryName,Organization organization) {
+    public DonationPost(String title, String content, BigDecimal targetAmount, BigDecimal currentAmount, LocalDate regdate, LocalDate enddate, String categoryName,Organization organization) {
         this.title = title;
         this.content = content;
         this.targetAmount = targetAmount;
@@ -51,15 +53,14 @@ public class DonationPost {
         this.organization = organization;
     }
 
-    public DonationPostSummary changeToLisInfo(){
+    public DonationPostSummary changeToDonationPostSummary(){
         String thumNailImageUrl = images.stream().filter(image -> image.getIsThumbnail()).findFirst().map(image -> image.getImageUrl()).get();
         return new DonationPostSummary(id,organization.getName(),title,thumNailImageUrl,currentAmount,fundPercentage);
     }
 
     public DonationPostDetail changeToDonationPostDetail(String categoryKrName){
-        Date start = Date.from(regdate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Date end = Date.from(enddate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return new DonationPostDetail(id,title,content,targetAmount,currentAmount,fundPercentage,start,end,categoryName,categoryKrName,organization.getName(),organization.getIntroduce());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return new DonationPostDetail(id,title,content,targetAmount,currentAmount,fundPercentage,regdate.format(formatter),enddate.format(formatter),categoryName,categoryKrName,organization.getName(),organization.getIntroduce());
     }
 
     public void changeContent(String updateContent){

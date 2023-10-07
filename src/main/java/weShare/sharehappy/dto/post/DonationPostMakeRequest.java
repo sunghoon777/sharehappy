@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -22,9 +23,8 @@ public class DonationPostMakeRequest {
     private String category;
     @NotNull
     private MultipartFile thumbnail;
-    @Positive
-    @Min(value = 100000)
-    private Long targetAmount;
+    @NotNull
+    private BigDecimal targetAmount;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 

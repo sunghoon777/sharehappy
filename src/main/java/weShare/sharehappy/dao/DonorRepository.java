@@ -3,9 +3,11 @@ package weShare.sharehappy.dao;
 import weShare.sharehappy.entity.Donor;
 import weShare.sharehappy.entity.Organization;
 
+import java.util.Optional;
+
 public interface DonorRepository {
 
-    Donor findByEmail(String email);
+    Optional<Donor> findByEmail(String email);
     Donor save(Donor donor);
 
 }

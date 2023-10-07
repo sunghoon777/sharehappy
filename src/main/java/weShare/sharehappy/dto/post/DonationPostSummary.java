@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +17,7 @@ public class DonationPostSummary {
     private String organizationName;
     private String title;
     private String thumbNailImageUrl;
-    private Long currentAmount;
+    private BigDecimal currentAmount;
     private Double fundPercentage;
 
 

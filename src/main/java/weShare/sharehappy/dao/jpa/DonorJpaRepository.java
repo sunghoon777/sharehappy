@@ -6,6 +6,8 @@ import weShare.sharehappy.dao.DonorRepository;
 import weShare.sharehappy.dao.jpa.springdata.SpringDataDonorRepsitory;
 import weShare.sharehappy.entity.Donor;
 
+import java.util.Optional;
+
 
 @Repository
 @AllArgsConstructor
@@ -14,7 +16,7 @@ public class DonorJpaRepository implements DonorRepository {
     SpringDataDonorRepsitory donorRepository;
 
     @Override
-    public Donor findByEmail(String email) {
+    public Optional<Donor> findByEmail(String email) {
         return donorRepository.findByEmail(email);
     }
 

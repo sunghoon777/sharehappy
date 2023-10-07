@@ -6,6 +6,7 @@ import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
 import weShare.sharehappy.dto.post.DonationPostMakeRequest;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -36,6 +37,11 @@ public class DonationPostMakeReqValidator implements Validator {
         }
         if(!imageFileContentType.contains(multipartFile.getContentType())){
             errors.rejectValue("thumbnail","notSupportContentType");
+        }
+        BigDecimal targetAmount = request.getTargetAmount();
+        //목표 금액은 최소 10만원에서 100억원까지만 설정하였음
+        if(targetAmount == null || targetAmount.compareTo(new BigDecimal("100000")) < 0 || targetAmount.compareTo(new BigDecimal("1000000000")) > 0 || targetAmount.scale() != 0){
+            errors.rejectValue("targetAmount","WrongAmount");
         }
     }
 }

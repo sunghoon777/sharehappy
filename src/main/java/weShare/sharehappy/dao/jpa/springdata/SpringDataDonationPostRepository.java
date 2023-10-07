@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import weShare.sharehappy.entity.DonationPost;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface SpringDataDonationPostRepository extends JpaRepository<DonationPost,Long> {
@@ -20,5 +21,7 @@ public interface SpringDataDonationPostRepository extends JpaRepository<Donation
     @Query(value = "select p from DonationPost p join fetch p.organization join fetch p.images where p.id = :postId")
     Optional<DonationPost> findByIdWithOrganizationAndImages(Long postId);
 
+    @Query(value = "select p from DonationPost p join fetch p.organization where p.id in :postIds")
+    List<DonationPost> findAllByPostIdsWithDonationPost(List<Long> postIds);
 
 }

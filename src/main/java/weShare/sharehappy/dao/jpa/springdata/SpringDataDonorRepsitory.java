@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import weShare.sharehappy.entity.Donor;
 import weShare.sharehappy.entity.User;
 
+import java.util.Optional;
+
 public interface SpringDataDonorRepsitory extends JpaRepository<Donor,Long> {
-    Donor findByEmail(String email);
+    Optional<Donor> findByEmail(String email);
 }

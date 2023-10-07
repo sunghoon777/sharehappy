@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import weShare.sharehappy.Exception.NoExistingCommentsInPage;
+import weShare.sharehappy.Exception.comment.NoExistingCommentsInPage;
 import weShare.sharehappy.constant.SessionKey;
 import weShare.sharehappy.dto.comment.DonationPostCommentsPageInfo;
 import weShare.sharehappy.dto.comment.DonationPostCommentsRequest;
 import weShare.sharehappy.dto.error.ApiValidationErrorResponse;
 import weShare.sharehappy.dto.error.FieldErrorInfo;
 import weShare.sharehappy.dto.error.RejectValueInfo;
-import weShare.sharehappy.dto.error.SimpleErrorResponse;
 import weShare.sharehappy.dto.user.UserSummary;
 import weShare.sharehappy.service.comment.DonationPostCommentManager;
 import weShare.sharehappy.service.message.MessageInfoProvider;
@@ -27,8 +26,6 @@ import weShare.sharehappy.service.message.MessageInfoProvider;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.HashSet;
 
 @Controller
 @AllArgsConstructor
