@@ -1,5 +1,7 @@
 package weShare.sharehappy.dao;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import weShare.sharehappy.constant.PostSortCriteria;
 import weShare.sharehappy.entity.DonationPost;
 import java.util.List;
@@ -13,5 +15,6 @@ public interface DonationPostRepository {
     Long counDonationPost();
     List<DonationPost> findAllByCategoryNameWithOrganizationAndImages(PostSortCriteria postSortCriteria, int page, int size,String categoryName);
     List<String> getOrganizationNamesByPostIds(List<Long> postIds);
+    List<DonationPost> findAllByEmailWithOrganizationAndImages(int page,int size, String email);
 
 }

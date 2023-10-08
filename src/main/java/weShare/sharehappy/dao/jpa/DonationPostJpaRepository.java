@@ -2,6 +2,7 @@ package weShare.sharehappy.dao.jpa;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
@@ -78,6 +79,15 @@ public class DonationPostJpaRepository implements DonationPostRepository {
     @Override
     public List<String> getOrganizationNamesByPostIds(List<Long> postIds){
         return repository.findAllByPostIdsWithDonationPost(postIds).stream().map(p -> p.getOrganization().getName()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DonationPost> findAllByEmailWithOrganizationAndImages(int page,int size, String email) {
+        PageRequest pageRequest = PageRequest.of(page,size);
+        List<DonationPost> donationPosts = repository.findAllByEmailWithOrganization(pageRequest,email).getContent();
+        //image는 직접 로딩함 @Batch를 통하여 n+1문제는 해결
+        donationPosts.stream().forEach(p -> p.getImages());
+        return donationPosts;
     }
 
 }

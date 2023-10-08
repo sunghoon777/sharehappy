@@ -22,7 +22,8 @@ let addPostList = function (postSummaryList){
         let newDiv = document.createElement("div");
         let fundPercentage = parseInt(post.fundPercentage);
         let formattedAmount = new Intl.NumberFormat('ko-KR').format(post.currentAmount);
-        let html = '<div class="card" onclick="window.location.href=\'/donationPost/{0}\'">\n' +
+        let html = ''+
+            '<div class="card" onclick="window.location.href=\'/donationPost/{0}\'">\n' +
             '                    <img src="{1}" class="card-img-top">\n' +
             '                    <div class="card-body container">\n' +
             '                        <p class="title mt-1">{2}</p>\n' +
@@ -35,7 +36,10 @@ let addPostList = function (postSummaryList){
             '                            <span>{6}원</span>\n' +
             '                        </div>\n' +
             '                    </div>\n' +
-            '                </div>';
+            '</div>'+
+            ' <div class="d-flex justify-content-center align-items-center mt-3">\n' +
+            '                   <button type="button" class="btn btn-danger">삭제</button>\n' +
+            ' </div>';
         newDiv.className = "col-3 mb-4 px-1 py-1";
         newDiv.innerHTML = html.format(post.postId,post.thumbNailImageUrl,post.title,post.organizationName,fundPercentage,fundPercentage,formattedAmount);
         postContainer.appendChild(newDiv);

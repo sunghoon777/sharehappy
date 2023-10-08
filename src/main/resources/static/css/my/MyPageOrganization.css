@@ -35,9 +35,38 @@
 .list-group-item {
     cursor: pointer;
 }
-.table-default{
-    background-color: #fff !important;
-    border-bottom-width: 0px !important;
+.card{
+    cursor: pointer;
+}
+.card-img-top{
+    height: 15rem;
+    object-fit: cover;
+}
+.card img {
+    filter: brightness(100%);
+    transition: filter 0.3s ease;
+}
+.card:hover img{
+    filter: brightness(80%);
+}
+.title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.0rem;
+    max-height: 2.0rem;
+    height: 2.0rem;
+}
+.organization-name{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: grey;
+}
+.progress-bar{
+    background-color: #7CD2B3 !important;
+}
+.percentage{
+    color: #7CD2B3;
 }
 #btn-more{
     background-color: #F5F5F5;

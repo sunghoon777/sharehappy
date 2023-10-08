@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import weShare.sharehappy.Exception.comment.NoExistingDonationPostComment;
+import weShare.sharehappy.Exception.donation.NoExistingDonationInfoException;
 import weShare.sharehappy.Exception.file.AwsS3StoreFilesException;
 import weShare.sharehappy.Exception.file.FileDeleteException;
 import weShare.sharehappy.Exception.file.FileStoreException;
@@ -75,6 +76,12 @@ public class ErrorControllerAdvice {
     public ResponseEntity<Object> noExistingUserExHandle(NoExistingUserException exception){
         String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
         return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NoExistingDonationInfoException.class)
+    public ResponseEntity<Object> noExistingDonationInfoExHandle(NoExistingDonationInfoException exception){
+        String message = messageInfoProvider.getMessage(exception.getClass().getSimpleName());
+        return new ResponseEntity<>(new SimpleErrorResponse(message),HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)

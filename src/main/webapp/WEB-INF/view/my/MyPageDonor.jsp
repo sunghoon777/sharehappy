@@ -28,136 +28,24 @@
 <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
         <div class="main-logo mt-4">
-            <a class="navbar-brand" href="/main"><img class="home" src="https://img.icons8.com/ios-filled/50/12B886/charity-box.png" width="50" height="50" alt="home"><spring:message code="homepageName"/></a>
+            <a class="main-logo-text navbar-brand" href="/main"><img class="home" src="https://img.icons8.com/ios-filled/50/12B886/charity-box.png" width="50" height="50" alt="home"><spring:message code="homepageName"/></a>
         </div>
         <div class="list-group list-group-flush mx-3 mt-4">
             <span class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
                 <i class="fa-solid fa-receipt fa-fw me-3" style="color: #10c838;"></i><span class="sidebar-element"><spring:message code="paymentHistory.myPage"/></span>
             </span>
-            <span  class="list-group-item list-group-item-action py-2 ripple">
-                <i class="fas fa-users fa-fw me-3" style="color: #10c838;"></i><span class="sidebar-element"><spring:message code="accountManage.myPage"/></span>
-            </span>
         </div>
     </div>
 </nav>
 <!--sidebar-->
-
 <!--Main layout-->
 <main style="margin-top: 58px">
     <div id="main" class="container pt-4">
-        <table class="table">
-            <thead>
-            <tr orderId="" postId="">
-                <th scope="col">주문 번호</th>
-                <th scope="col">단체 이름</th>
-                <th scope="col">모금함 제목</th>
-                <th scope="col">결제 날짜</th>
-                <th scope="col">환불 날짜</th>
-                <th scope="col">결제 상태</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="table-success">
-                <td>312c257c-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>유니세프</td>
-                <td>노인 분들을 후원하세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td></td>
-                <td>결제</td>
-                <td class="table-default"><button type="button" class="btn btn-danger">환불하기</button></td>
-            </tr>
-            <tr class="table-success">
-                <td>312c257c2222c-4d27-baea-87dfd29f98ea</td>
-                <td>적혈십자회</td>
-                <td>어려운 어린이들을 도와주세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td></td>
-                <td>결제</td>
-                <td class="table-light"><button type="button" class="btn btn-danger">환불하기</button></td>
-            </tr>
-            <tr class="table-success">
-                <td>42112ssc-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>기부단체1</td>
-                <td>어려운 어린이들을 도와주세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td></td>
-                <td>결제</td>
-                <td class="table-light"><button type="button" class="btn btn-danger">환불하기</button></td>
-            </tr>
-            <tr class="table-danger">
-                <td>42112ssc-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>기부단체2</td>
-                <td>노인 분들을 후원하세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td>2023-09-01 00:00:00</td>
-                <td>환불</td>
-            </tr>
-            <tr class="table-success">
-                <td>42112ssc-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>기부단체1</td>
-                <td>어려운 어린이들을 도와주세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td></td>
-                <td>결제</td>
-                <td class="table-light"><button type="button" class="btn btn-danger">환불하기</button></td>
-            </tr>
-            <tr class="table-success">
-                <td>42112ssc-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>기부단체1</td>
-                <td>어려운 어린이들을 도와주세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td></td>
-                <td>결제</td>
-                <td class="table-light"><button type="button" class="btn btn-danger">환불하기</button></td>
-            </tr>
-            <tr class="table-success">
-                <td>42112ssc-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>기부단체1</td>
-                <td>어려운 어린이들을 도와주세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td></td>
-                <td>결제</td>
-                <td class="table-light"><button type="button" class="btn btn-danger">환불하기</button></td>
-            </tr>
-            <tr class="table-success">
-                <td>42112ssc-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>기부단체1</td>
-                <td>어려운 어린이들을 도와주세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td></td>
-                <td>결제</td>
-                <td class="table-light"><button type="button" class="btn btn-danger">환불하기</button></td>
-            </tr>
-            <tr class="table-success">
-                <td>42112ssc-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>기부단체1</td>
-                <td>어려운 어린이들을 도와주세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td></td>
-                <td>결제</td>
-                <td class="table-light"><button type="button" class="btn btn-danger">환불하기</button></td>
-            </tr>
-            <tr class="table-danger">
-                <td>42112ssc-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>기부단체2</td>
-                <td>노인 분들을 후원하세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td>2023-09-01 00:00:00</td>
-                <td>환불</td>
-            </tr>
-            <tr class="table-danger">
-                <td>42112ssc-b09c-4d27-baea-87dfd29f98ea</td>
-                <td>기부단체2</td>
-                <td>노인 분들을 후원하세요</td>
-                <td>2023-09-01 00:00:00</td>
-                <td>2023-09-01 00:00:00</td>
-                <td>환불</td>
-            </tr>
-            </tbody>
-        </table>
+
     </div>
 </main>
 <!--Main layout-->
 </body>
 </html>
+
+

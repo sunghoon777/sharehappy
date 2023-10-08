@@ -67,10 +67,10 @@ public class DonationInfo {
             completeDate = donationCompleteDate.format(formatter);
         }
         String cancleDate = "";
-        if(donationCompleteDate != null){
+        if(donationCancleDate != null){
             cancleDate = donationCancleDate.format(formatter);
         }
-        return new DonationInfoSummary(orderId,donationStatus.getKrName(),
-                completeDate,cancleDate,donationPost.getId(),donationPost.getTitle(),organizationName);
+        return new DonationInfoSummary(orderId,amount,donationStatus.getKrName(),
+                completeDate,cancleDate,donationPost.getTitle(),organizationName);
     }
 }

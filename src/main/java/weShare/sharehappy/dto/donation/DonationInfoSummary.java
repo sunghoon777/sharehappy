@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Getter
@@ -14,10 +13,10 @@ import java.time.LocalDateTime;
 public class DonationInfoSummary {
 
     private String orderId;
+    private BigDecimal amount;
     private String donationStatusKrName;
     private String donationCompleteDate;
     private String donationCancleDate;
-    private Long postId;
     private String postTitle;
     private String organizationName;
 

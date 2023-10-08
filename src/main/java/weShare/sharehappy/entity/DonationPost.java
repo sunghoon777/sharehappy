@@ -41,6 +41,7 @@ public class DonationPost {
     private List<DonationPostImage> images;
     @Formula("current_amount*100/target_amount") //purcentage 계산을 위한 것
     private Double fundPercentage;
+    private Boolean deleted;
 
     public DonationPost(String title, String content, BigDecimal targetAmount, BigDecimal currentAmount, LocalDate regdate, LocalDate enddate, String categoryName,Organization organization) {
         this.title = title;
@@ -51,6 +52,7 @@ public class DonationPost {
         this.enddate = enddate;
         this.categoryName = categoryName;
         this.organization = organization;
+        deleted = false;
     }
 
     public DonationPostSummary changeToDonationPostSummary(){
@@ -67,4 +69,16 @@ public class DonationPost {
         this.content = updateContent;
     }
 
+    public void plusCurrentAmount(BigDecimal amount){
+        currentAmount = currentAmount.add(amount);
+
+    }
+
+    public void minusCurrentAmount(BigDecimal amount){
+        currentAmount = currentAmount.subtract(amount);
+    }
+
+    public void chnagePostDeletedStatus(){
+        deleted = true;
+    }
 }

@@ -1,6 +1,7 @@
 package weShare.sharehappy.service.donationpost;
 
 
+import com.siot.IamportRestClient.IamportClient;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.dao.DataAccessException;
@@ -8,22 +9,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import weShare.sharehappy.Exception.file.AwsS3StoreFilesException;
+import weShare.sharehappy.Exception.post.DonationPostDeletionNotAllowedException;
 import weShare.sharehappy.Exception.post.NoExistingDonationPost;
 import weShare.sharehappy.Exception.post.NoMoreDonationPostException;
 import weShare.sharehappy.Exception.postcategory.NoExistingDonationPostCategory;
 import weShare.sharehappy.Exception.user.NoExistingUserException;
+import weShare.sharehappy.constant.DonationStatus;
 import weShare.sharehappy.constant.PageSize;
-import weShare.sharehappy.dao.DonationPostCategoryRepository;
-import weShare.sharehappy.dao.DonationPostImageRepository;
-import weShare.sharehappy.dao.DonationPostRepository;
-import weShare.sharehappy.dao.OrganizationRepository;
+import weShare.sharehappy.constant.PostDeleteCriteria;
+import weShare.sharehappy.dao.*;
 import weShare.sharehappy.dto.post.DonationPostDetail;
 import weShare.sharehappy.dto.post.DonationPostMakeRequest;
 import weShare.sharehappy.dto.post.DonationPostSummary;
 import weShare.sharehappy.dto.post.DonationPostSummaryRequest;
+import weShare.sharehappy.entity.DonationInfo;
 import weShare.sharehappy.entity.DonationPost;
 import weShare.sharehappy.entity.DonationPostImage;
 import weShare.sharehappy.entity.Organization;
+import weShare.sharehappy.service.donation.DonationManager;
 import weShare.sharehappy.service.file.AwsS3FileManagementService;
 import java.io.File;
 import java.math.BigDecimal;
@@ -43,6 +46,8 @@ public class DonationPostManager {
     private final DonationPostRepository postRepository;
     private final DonationPostCategoryRepository categoryRepository;
     private final OrganizationRepository organizationRepository;
+    private final DonationInfoRepository donationInfoRepository;
+    private final DonationManager donationManager;
     private final DonationPostImageRepository donationPostImageRepository;
     private final AwsS3FileManagementService awsS3FileManagementService;
 
@@ -51,6 +56,14 @@ public class DonationPostManager {
                 .orElseThrow(()->new NoExistingDonationPostCategory());
         List<DonationPost> list = postRepository.findAllByCategoryNameWithOrganizationAndImages(
                 request.getPostSortCriteria(), request.getPage(), PageSize.MAIN_PAGE_SIZE.getSize(),request.getCategoryName());
+        if(list.size() == 0){
+            throw new NoMoreDonationPostException();
+        }
+        return list.stream().map(post -> post.changeToDonationPostSummary()).collect(Collectors.toList());
+    }
+
+    public List<DonationPostSummary> getDonationPosts(Integer page, String email){
+        List<DonationPost> list = postRepository.findAllByEmailWithOrganizationAndImages(page,PageSize.MY_DONATION_POST_SIZE.getSize(),email);
         if(list.size() == 0){
             throw new NoMoreDonationPostException();
         }
@@ -127,6 +140,30 @@ public class DonationPostManager {
             throw new AwsS3StoreFilesException(fileNames);
         }
     }
+
+    @Transactional
+    public void deletePost(Long postId, String userEmail){
+        DonationPost donationPost = postRepository.findByIdWithOrganizationAndImages(postId).orElseThrow(()->new NoExistingDonationPost());
+        if(!donationPost.getOrganization().getEmail().equals(userEmail)) {
+            throw new DonationPostDeletionNotAllowedException(PostDeleteCriteria.NOT_EQUALS_AUTHOR);
+        }
+        LocalDate now = LocalDate.now();
+        if(now.isAfter(donationPost.getEnddate())){
+            throw new DonationPostDeletionNotAllowedException(PostDeleteCriteria.END_DATE_AFTER);
+        }
+        LocalDateTime refundLimitDate = LocalDateTime.now().minusDays(7);
+        Boolean exists = donationInfoRepository.existsNotRefundDonationInDonationPost(postId, DonationStatus.PAID,refundLimitDate);
+        if(exists){
+           throw new DonationPostDeletionNotAllowedException(PostDeleteCriteria.AFTER_DONATION_SEVEN_DAYS);
+        }
+        //모금함을 삭제 상태로 만듬 DB에서 아예 삭제하지 않은 이유는 기부자가 자기가 원해서 환불을 한게 아니고 모금함 게시자가 모금함을 삭제했기 때문이고 어떤 모금함에 기부했었는지는 알아야하기 때문에
+        donationPost.chnagePostDeletedStatus();
+        //모금함 내의 모든 결제 정보 결제 취소
+        donationManager.cancleDonationsInPost(postId);
+    }
+
+
+
 
     //content 안에 기존 local url를 새 url로 바꾸어준다
     private String changeCotentUrl(List<String> fileNames,List<String> imageUrlList,String content){

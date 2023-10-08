@@ -24,4 +24,7 @@ public interface SpringDataDonationPostRepository extends JpaRepository<Donation
     @Query(value = "select p from DonationPost p join fetch p.organization where p.id in :postIds")
     List<DonationPost> findAllByPostIdsWithDonationPost(List<Long> postIds);
 
+    @Query(value = "select p from DonationPost p join fetch p.organization where p.organization.email = :email")
+    Slice<DonationPost> findAllByEmailWithOrganization(Pageable pageable, String email);
+
 }
