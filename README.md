@@ -23,8 +23,7 @@
 ![결제 내역](https://github.com/sunghoon777/sharehappy/assets/62196474/abc5f91c-3ab4-4e09-93a9-3f2ac5d45d51)
 
 <h1>구동 영상</h1>
-<iframe>https://www.youtube.com/watch?v=wRSuz7lTWHg</iframe>
-<iframe>https://www.youtube.com/watch?v=OKoMbHBcrNc</iframe>
+https://youtu.be/wRSuz7lTWHg?si=oo57RqhdduGSfFvP
 
 <h1>구동방법</h1>
 <p>SharehappyApplication class main 함수 실행</p>
